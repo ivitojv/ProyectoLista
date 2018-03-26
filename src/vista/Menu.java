@@ -1,0 +1,85 @@
+package vista;
+import controlador.*;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Menu {
+
+	private JFrame frame;
+	private JTextField textField;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Menu window = new Menu();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Menu() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		
+		JButton btnCrearPersona = new JButton("Crear persona");
+		btnCrearPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PersonController.callCrearPersona();
+			}
+		});
+		btnCrearPersona.setBounds(37, 156, 132, 23);
+		frame.getContentPane().add(btnCrearPersona);
+		
+		JLabel label = new JLabel("");
+		label.setBounds(37, 117, 387, 14);
+		frame.getContentPane().add(label);
+		
+		JButton btnNewButton = new JButton("Entrar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(PersonController.login(textField.getText()));
+				else label.setText("Esa persona no está en el sistema");
+			}
+		});
+		btnNewButton.setBounds(292, 68, 132, 23);
+		frame.getContentPane().add(btnNewButton);
+		
+		JLabel lblElijaUnaOpcin = new JLabel("Login:");
+		lblElijaUnaOpcin.setBounds(37, 31, 60, 14);
+		frame.getContentPane().add(lblElijaUnaOpcin);
+		
+		textField = new JTextField();
+		textField.setBounds(37, 69, 235, 20);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		
+	}
+}
