@@ -63,13 +63,13 @@ public class MenuPersona extends JFrame {
 		JButton btnAadirTarjeta = new JButton("Añadir Tarjeta");
 		btnAadirTarjeta.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				if(textField.getText().length()*textField_1.getText().length() > 0) {
+				if(textField.getText().length() > 0) {
 					if(TargetController.add(sesion.person(),textField.getText(),textField_1.getText(),textArea.getText())) {
 						System.out.println("MenuPersona "+textArea.getText());
 						lblNewLabel.setText("Tarjeta Creada");
 					}
 					else lblNewLabel.setText("Fallo en el campo fecha");
-				}else lblNewLabel.setText("Es necesario rellenar los 2 primeros campos");
+				}else lblNewLabel.setText("Es necesario que tenga título");
 			}
 		});
 		btnAadirTarjeta.setBounds(20, 227, 114, 23);

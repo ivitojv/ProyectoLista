@@ -5,6 +5,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import controlador.TargetController;
 import modelo.Tarjeta;
@@ -16,6 +18,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JCheckBox;
 
 public class DetalleTarjeta extends JFrame {
 
@@ -48,7 +51,7 @@ public class DetalleTarjeta extends JFrame {
 		panel.add(title);
 
 		JLabel lblFecha = new JLabel("Fecha:");
-		lblFecha.setBounds(0, 53, 212, 52);
+		lblFecha.setBounds(0, 53, 59, 52);
 		//lblFecha.setBounds(245, 11, 46, 14);
 		panel.add(lblFecha);
 		
@@ -74,8 +77,7 @@ public class DetalleTarjeta extends JFrame {
 		for(int i = 0; i < 100; i++) {
 			date_y.addItem(i+2018);
 		}
-		System.out.println(tarjeta.date().getYear());
-		date_y.setSelectedIndex(tarjeta.date().getYear()-118);
+		
 		
 		JComboBox date_m = new JComboBox();
 		date_m.setBounds(303, 69, 47, 20);
@@ -83,20 +85,54 @@ public class DetalleTarjeta extends JFrame {
 		for(int i = 0; i < 12; i++) {
 			date_m.addItem(i+1);
 		}
-		date_m.setSelectedIndex(tarjeta.date().getMonth());
 		
 		JComboBox date_d = new JComboBox();
 		date_d.setBounds(367, 69, 47, 20);
 		panel.add(date_d);
+	
 		
 		JLabel lblYearMonthDay = new JLabel("Year                        Month            Day");
 		lblYearMonthDay.setBounds(212, 49, 202, 14);
 		panel.add(lblYearMonthDay);
+		date_y.setEnabled(false);
+		date_m.setEnabled(false);
+		date_d.setEnabled(false);
+		
+		JCheckBox chckbxActivar = new JCheckBox("Activar");
+		chckbxActivar.setBounds(96, 68, 97, 23);
+		panel.add(chckbxActivar);
+		chckbxActivar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(chckbxActivar.isSelected()) {
+					System.out.println("DetaleTarjeta: ckbx->Selected");
+					date_y.setEnabled(true);
+					date_m.setEnabled(true);
+					date_d.setEnabled(true);
+				}else {
+					System.out.println("DetaleTarjeta: ckbx->Not selected");
+					date_y.setEnabled(false);
+					date_m.setEnabled(false);
+					date_d.setEnabled(false);
+				}
+			}
+			
+		});
 		for(int i = 0; i < 31; i++) {
 			date_d.addItem(i+1);
 		}
-		date_d.setSelectedIndex(tarjeta.date().getDate()-2);
 		
+		if(tarjeta.date()!= null) {
+			chckbxActivar.setSelected(true);
+			date_y.setEnabled(true);
+			date_m.setEnabled(true);
+			date_d.setEnabled(true);
+			System.out.println(tarjeta.date().getYear());
+			date_y.setSelectedIndex(tarjeta.date().getYear()-118);
+			date_m.setSelectedIndex(tarjeta.date().getMonth());
+			date_d.setSelectedIndex(tarjeta.date().getDate()-2);
+		}
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setBounds(61, 227, 89, 23);
 		contentPane.add(btnGuardar);
@@ -105,12 +141,18 @@ public class DetalleTarjeta extends JFrame {
 				//System.out.println("DetalleTarjeta "+title.getText());
 				if(title.getText().length() > 0) {
 					//System.out.println("DetalleTarjeta "+date.getText());
-					String date = date_y.getSelectedItem()+"-"+date_m.getSelectedItem()+"-"+((int)date_d.getSelectedItem()+1);
-					if(TargetController.mod(tarjeta,title.getText(),date,description.getText())) {
-						System.out.println("DetalleTarjeta "+description.getText());
-						lblNewLabel_1.setText("Tarjeta Guardada");
-					}
-					else lblNewLabel_1.setText("Fallo en el campo fecha");
+					if(chckbxActivar.isSelected()) {
+						String date = date_y.getSelectedItem()+"-"+date_m.getSelectedItem()+"-"+((int)date_d.getSelectedItem()+1);
+						if(TargetController.mod(tarjeta,title.getText(),date,description.getText())) {
+							System.out.println("DetalleTarjeta "+description.getText());
+							lblNewLabel_1.setText("Tarjeta Guardada");
+						}else lblNewLabel_1.setText("Fallo en el campo fecha");
+					}else {
+						if(TargetController.mod(tarjeta,title.getText(),"",description.getText())) {
+							System.out.println("DetalleTarjeta "+description.getText());
+							lblNewLabel_1.setText("Tarjeta Guardada");
+						}
+					}				
 				}else lblNewLabel_1.setText("Es necesario que tenga título");
 			}
 		});

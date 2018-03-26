@@ -4,6 +4,7 @@ import java.util.Date
 class Tarjeta(val author:Person,var title:String) extends Serializable {
   var date:Date = null
   var comment = ""
+  var finalizada = false
   def this(author:Person,title:String, date:Date){
     this(author,title)
     this.date = date

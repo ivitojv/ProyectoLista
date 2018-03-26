@@ -3,6 +3,9 @@ package vista;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -15,22 +18,29 @@ import utilities.Sesion;
 
 
 import javax.swing.JScrollPane;
+import javax.swing.JToggleButton;
 import javax.swing.JLabel;
+import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.UIManager;
+import javax.swing.JRadioButton;
 
 public class MostrarTarjeta extends JFrame {
 
 	private JPanel contentPane;
 	private final JScrollPane scrollPane = new JScrollPane();
 	private Sesion sesion;
+	private Tarjeta selectedTarget;
+	private List<Tarjeta> tarjetas;
 
 	/**
 	 * Create the frame.
 	 */
-	public MostrarTarjeta(List<Tarjeta> tarjetas,Sesion sesion) {
+	public MostrarTarjeta(List<Tarjeta> targets,Sesion sesion) {
 		this.sesion = sesion;
+		this.tarjetas = targets;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -42,11 +52,17 @@ public class MostrarTarjeta extends JFrame {
 		lblTusTarjetas.setBounds(10, 11, 76, 14);
 		contentPane.add(lblTusTarjetas);
 		scrollPane.setViewportBorder(UIManager.getBorder("ScrollPane.border"));
+		
+		JLabel label = new JLabel("");
+		label.setBounds(173, 11, 251, 14);
+		contentPane.add(label);
 
-		scrollPane.setBounds(0, 57, 434, 204);
+		scrollPane.setBounds(0, 36, 434, 182);
 		contentPane.add(scrollPane);
 
 		System.out.println("vista.MostrarTarjeta " + tarjetas.size());
+		
+		ButtonGroup group = new ButtonGroup();
 
 		JPanel contenedor = new JPanel();
 		contenedor.setLayout(new BoxLayout(contenedor, BoxLayout.PAGE_AXIS));
@@ -54,57 +70,31 @@ public class MostrarTarjeta extends JFrame {
 			JPanel panel = new JPanel();
 			
 			//panel.setBounds(10, 79, 414, 83);
-			panel.setLayout(new GridLayout(4,2));
-
-			JLabel lblNewLabel = new JLabel("Título: ");
-			//lblNewLabel.setBounds(10, 11, 46, 14);
-			panel.add(lblNewLabel);
+			panel.setLayout(new GridLayout(1,1));
 			
-			JLabel title = new JLabel(tarjeta.title());
-			//title.setBounds(66, 11, 169, 14);
-			panel.add(title);
+			JRadioButton rdbt = new JRadioButton(tarjeta.title());
+			panel.add(rdbt);
+			rdbt.addFocusListener(new FocusListener() {
 
-			JLabel lblFecha = new JLabel("Fecha:");
-			//lblFecha.setBounds(245, 11, 46, 14);
-			panel.add(lblFecha);
-			
-			JLabel date = new JLabel(tarjeta.date().toGMTString());
-			//date.setBounds(288, 11, 116, 14);
-			panel.add(date);
-			
-			JLabel lblDescripcin = new JLabel("Descripción:");
-			//lblDescripcin.setBounds(10, 43, 63, 14);
-			panel.add(lblDescripcin);
-
-
-			JLabel description = new JLabel(tarjeta.comment());
-			System.out.println("vista.MostrarTarjeta "+tarjeta.comment());
-			//description.setBounds(83, 43, 321, 29);
-			panel.add(description);
-			
-			JButton btnDetalle = new JButton("Detalle");
-			panel.add(btnDetalle);
-			btnDetalle.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					TargetController.callDetalleTarjeta(tarjeta,sesion);
+				@Override
+				public void focusGained(FocusEvent arg0) {
+					selectedTarget = tarjeta;
+					System.out.println(tarjeta.title());
 				}
-			});
-			
-			JButton btnBorrar = new JButton("Borrar");
-			panel.add(btnBorrar);
-			contenedor.add(panel);
-			btnBorrar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					TargetController.borrarTarjeta(tarjeta);
-					contenedor.remove(panel);
-					contenedor.updateUI();
+
+				@Override
+				public void focusLost(FocusEvent arg0) {
 				}
-			});
-			
 				
+			});
+			group.add(rdbt);
+			
+			contenedor.add(panel);
 		}
 		
 		scrollPane.setViewportView(contenedor);
+		
+		
 		/*
 		JButton btnBorrar = new JButton("Borrar");
 		btnBorrar.setBounds(320, 21, 89, 23);
@@ -116,7 +106,39 @@ public class MostrarTarjeta extends JFrame {
 				dispose();
 			}
 		});
-		btnAtrs.setBounds(335, 23, 89, 23);
+		btnAtrs.setBounds(10, 227, 89, 23);
 		contentPane.add(btnAtrs);
+		
+		JButton btnDetalle = new JButton("Detalle");
+		btnDetalle.setBounds(232, 227, 89, 23);
+		contentPane.add(btnDetalle);
+		btnDetalle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//System.out.println(group.getSelection());
+				if(group.getSelection()!=null)
+					TargetController.callDetalleTarjeta(selectedTarget,sesion);
+				else
+					label.setText("Debes escoger una tarjeta");
+					
+			}
+		});
+		
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.setBounds(335, 227, 89, 23);
+		contentPane.add(btnBorrar);	
+		
+		btnBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(group.getSelection()!=null) {
+					TargetController.borrarTarjeta(selectedTarget);
+					contenedor.remove(tarjetas.indexOf(selectedTarget));
+					group.clearSelection();
+					tarjetas = TargetController.getTarjetas(sesion);
+					contenedor.updateUI();					
+				}
+				else
+					label.setText("Debes escoger una tarjeta");
+			}
+		});
 	}
 }

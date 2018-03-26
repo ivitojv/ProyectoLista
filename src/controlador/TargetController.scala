@@ -16,7 +16,9 @@ object TargetController extends Controller{
   val FILENAME = "tarjetas.obj"
   
   cargarTarjetas(FILENAME)
-
+  def getTarjetas(ss:Sesion):List[Tarjeta]=for(elem<-tarjetas; if(elem.author.name == ss.person.name)) yield elem
+  
+    
   def cargarTarjetas(filename: String) {
     try{
       val in = new ObjectInputStream(new FileInputStream(filename))
@@ -31,6 +33,11 @@ object TargetController extends Controller{
       println("TargetController "+tarjetas.last.comment)
       saveOnFile(tarjetas,FILENAME)
       true
+    }else if(fecha == ""){
+      tarjetas += new Tarjeta(author,title,comment)
+      println("TargetController "+tarjetas.last.comment)
+      saveOnFile(tarjetas,FILENAME)
+      true
     }else false
   }
   def mod(t:Tarjeta, title:String, date:String, comment:String)={
@@ -40,24 +47,30 @@ object TargetController extends Controller{
       t.comment = comment
       saveOnFile(tarjetas,FILENAME)
       true
+     }else if(date == ""){
+      t.title = title
+      t.date = null
+      t.comment = comment
+      saveOnFile(tarjetas,FILENAME)
+      true
     }else false
   }
   def callDetalleTarjeta(t:Tarjeta,s:Sesion){
     try {
-      frame = new DetalleTarjeta(t,s);
-      frame.setVisible(true);
+      frame = new DetalleTarjeta(t,s)
+      frame.setVisible(true)
     } catch {
-      case e: Exception => e.printStackTrace();
+      case e: Exception => e.printStackTrace()
     }
   }
   def callMostrarTarjeta(ss:Sesion){
     for(e<-tarjetas)println("callMostrarTarjeta "+e.author.name)
-    val pt:List[Tarjeta] = for(elem<-tarjetas; if(elem.author.name == ss.person.name)) yield elem
+    val pt = getTarjetas(ss)
     try {
-      frame = new MostrarTarjeta(pt,ss);
-      frame.setVisible(true);
+      frame = new MostrarTarjeta(pt,ss)
+      frame.setVisible(true)
     } catch {
-      case e: Exception => e.printStackTrace();
+      case e: Exception => e.printStackTrace()
     }
   }
   def borrarTarjeta(t:Tarjeta) {for(elem<-tarjetas;if(t==elem))tarjetas-=elem;saveOnFile(tarjetas,FILENAME)}
