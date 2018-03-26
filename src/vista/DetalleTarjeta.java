@@ -50,7 +50,7 @@ public class DetalleTarjeta extends JFrame {
 		//title.setBounds(66, 11, 169, 14);
 		panel.add(title);
 
-		JLabel lblFecha = new JLabel("Fecha:");
+		JLabel lblFecha = new JLabel("Fecha Fin:");
 		lblFecha.setBounds(0, 53, 59, 52);
 		//lblFecha.setBounds(245, 11, 46, 14);
 		panel.add(lblFecha);
@@ -146,7 +146,7 @@ public class DetalleTarjeta extends JFrame {
 						if(TargetController.mod(tarjeta,title.getText(),date,description.getText())) {
 							System.out.println("DetalleTarjeta "+description.getText());
 							lblNewLabel_1.setText("Tarjeta Guardada");
-						}else lblNewLabel_1.setText("Fallo en el campo fecha");
+						}else lblNewLabel_1.setText("ERROR: fecha fin >= fecha actual");
 					}else {
 						if(TargetController.mod(tarjeta,title.getText(),"",description.getText())) {
 							System.out.println("DetalleTarjeta "+description.getText());

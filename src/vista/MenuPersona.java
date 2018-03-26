@@ -35,25 +35,25 @@ public class MenuPersona extends JFrame {
 		contentPane.add(lblTtulo);
 		
 		textField = new JTextField();
-		textField.setBounds(144, 21, 197, 20);
+		textField.setBounds(202, 21, 197, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
-		JLabel lblFechayyyymmdd = new JLabel("Fecha (YYYY-MM-DD): ");
-		lblFechayyyymmdd.setBounds(20, 60, 114, 14);
+		JLabel lblFechayyyymmdd = new JLabel("Fecha Fin(YYYY-MM-DD): ");
+		lblFechayyyymmdd.setBounds(20, 60, 172, 14);
 		contentPane.add(lblFechayyyymmdd);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(144, 57, 197, 20);
+		textField_1.setBounds(202, 57, 197, 20);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		
 		JLabel lblComentario = new JLabel("Comentario: ");
-		lblComentario.setBounds(20, 99, 70, 14);
+		lblComentario.setBounds(20, 99, 114, 14);
 		contentPane.add(lblComentario);
 		
 		JTextArea textArea = new JTextArea();
-		textArea.setBounds(144, 94, 197, 82);
+		textArea.setBounds(202, 94, 197, 82);
 		contentPane.add(textArea);
 		
 		JLabel lblNewLabel = new JLabel("");
@@ -68,7 +68,7 @@ public class MenuPersona extends JFrame {
 						System.out.println("MenuPersona "+textArea.getText());
 						lblNewLabel.setText("Tarjeta Creada");
 					}
-					else lblNewLabel.setText("Fallo en el campo fecha");
+					else lblNewLabel.setText("Fallo en el campo fecha. Pista: fecha fin >= fecha actual");
 				}else lblNewLabel.setText("Es necesario que tenga título");
 			}
 		});

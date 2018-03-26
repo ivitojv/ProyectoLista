@@ -1,4 +1,5 @@
 package controlador
+
 import utilities._
 import modelo._
 import java.io._
@@ -8,6 +9,8 @@ import javax.swing.JFrame
 import java.util.List
 import collection.JavaConversions._
 import vista._
+import java.util.Date
+
 object TargetController extends Controller{
   var tarjetas = ArrayBuffer.empty[Tarjeta]
   var author = ""
@@ -25,7 +28,7 @@ object TargetController extends Controller{
       tarjetas = in.readObject().asInstanceOf[ArrayBuffer[Tarjeta]]
     }catch {case _ => println("fail_tarjetas")}
   }
-  private def checkDate(date:String) = if(regex.findAllIn(date).length>0) true else false
+  private def checkDate(date:String) = if(regex.findAllIn(date).length>0) if(format.parse(date).after(new Date())) true else false else false
   def add(author:Person,title:String,fecha:String,comment:String)={
     if(checkDate(fecha)){
       println("TargetController "+comment)
