@@ -1,11 +1,11 @@
 package modelo
 import collection.mutable.ArrayBuffer
-class Lista {
-  var tarjetas = ArrayBuffer.empty[Tarjeta]
-  def this(t:ArrayBuffer[Tarjeta]){
-    this()
-    tarjetas = t
+class Lista(val name:String, val author:Person) extends Serializable{
+  var lista = ArrayBuffer.empty[Any]
+  def this(name:String, p:Person, l:ArrayBuffer[Any]){
+    this(name,p)
+    lista = l
   }
-  def add(t:Tarjeta){tarjetas+=t}
-  def del(t:Tarjeta){tarjetas-=t}
+  def +=(t:Any) {lista+=t}
+  def -=(t:Any) {lista-=t}
 }

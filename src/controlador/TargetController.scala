@@ -14,9 +14,9 @@ import java.util.Date
 object TargetController extends Controller{
   var tarjetas = ArrayBuffer.empty[Tarjeta]
   var author = ""
-  val regex = """[0-9][0-9][0-9][0-9]-[0-1]?[0-9]-[0-3]?[0-9]""".r
-  val format = new SimpleDateFormat("yyyy-MM-dd")
-  val FILENAME = "tarjetas.obj"
+  private val regex = """[0-9][0-9][0-9][0-9]-[0-1]?[0-9]-[0-3]?[0-9]""".r
+  private val format = new SimpleDateFormat("yyyy-MM-dd")
+  private val FILENAME = "tarjetas.obj"
   val AZ = 0
   val ZA = 1
   val DATE = 2
@@ -33,7 +33,7 @@ object TargetController extends Controller{
       case END => tjs.filter(_.finalizada)
     }
   }
-  def cargarTarjetas(filename: String) {
+  private def cargarTarjetas(filename: String) {
     try{
       val in = new ObjectInputStream(new FileInputStream(filename))
       tarjetas = in.readObject().asInstanceOf[ArrayBuffer[Tarjeta]]

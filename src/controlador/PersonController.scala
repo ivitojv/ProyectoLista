@@ -8,12 +8,11 @@ import collection.mutable.ArrayBuffer
 import java.io._
 
 object PersonController extends Controller {
-  frame = null
   var personas = ArrayBuffer.empty[Person]
-  val FILENAME = "personas.obj"
+  private val FILENAME = "personas.obj"
   cargarPersonas(FILENAME)
 
-  def cargarPersonas(filename: String) {
+  private def cargarPersonas(filename: String) {
     try {  
       val in = new ObjectInputStream(new FileInputStream(filename))
       personas = in.readObject().asInstanceOf[ArrayBuffer[Person]]

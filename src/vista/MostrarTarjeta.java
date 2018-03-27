@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -19,9 +18,7 @@ import utilities.Sesion;
 
 
 import javax.swing.JScrollPane;
-import javax.swing.JToggleButton;
 import javax.swing.JLabel;
-import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -42,8 +39,8 @@ public class MostrarTarjeta extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MostrarTarjeta(List<Tarjeta> targets,Sesion sesion) {
-		this.sesion = sesion;
+	public MostrarTarjeta(List<Tarjeta> targets,Sesion ss) {
+		this.sesion = ss;
 		this.tarjetas = targets;
 		this.tShowed = targets;
 		
