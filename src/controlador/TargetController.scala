@@ -17,11 +17,22 @@ object TargetController extends Controller{
   val regex = """[0-9][0-9][0-9][0-9]-[0-1]?[0-9]-[0-3]?[0-9]""".r
   val format = new SimpleDateFormat("yyyy-MM-dd")
   val FILENAME = "tarjetas.obj"
+  val AZ = 0
+  val ZA = 1
+  val DATE = 2
+  val END = 3
   
   cargarTarjetas(FILENAME)
   def getTarjetas(ss:Sesion):List[Tarjeta]=for(elem<-tarjetas; if(elem.author.name == ss.person.name)) yield elem
   
-    
+  def ordFiltT(tjs:List[Tarjeta], op:Int):List[Tarjeta]={
+    op match{
+      case AZ => tjs.sortWith(_.title < _.title)
+      case ZA => tjs.sortWith(_.title > _.title)
+      case DATE => tjs.filter(_.date!=null).sortWith((a:Tarjeta,b:Tarjeta) => a.date.before(b.date))
+      case END => tjs.filter(_.finalizada)
+    }
+  }
   def cargarTarjetas(filename: String) {
     try{
       val in = new ObjectInputStream(new FileInputStream(filename))

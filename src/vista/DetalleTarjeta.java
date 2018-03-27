@@ -89,7 +89,9 @@ public class DetalleTarjeta extends JFrame {
 		JComboBox date_d = new JComboBox();
 		date_d.setBounds(367, 69, 47, 20);
 		panel.add(date_d);
-	
+		for(int i = 0; i < 31; i++) {
+			date_d.addItem(i+1);
+		}
 		
 		JLabel lblYearMonthDay = new JLabel("Year                        Month            Day");
 		lblYearMonthDay.setBounds(212, 49, 202, 14);
@@ -133,9 +135,6 @@ public class DetalleTarjeta extends JFrame {
 			}
 			
 		});
-		for(int i = 0; i < 31; i++) {
-			date_d.addItem(i+1);
-		}
 		
 		if(tarjeta.date()!= null) {
 			chckbxActivar.setSelected(true);
