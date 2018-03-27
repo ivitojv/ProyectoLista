@@ -1,5 +1,6 @@
 package vista;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -38,15 +39,16 @@ public class CrearPersona extends JFrame {
 		lblNewLabel.setBounds(29, 24, 61, 14);
 		contentPane.add(lblNewLabel);
 		
-		JLabel label = new JLabel("");
-		label.setBounds(29, 96, 208, 14);
-		contentPane.add(label);
+		JLabel infLabel = new JLabel("");
+		infLabel.setForeground(Color.red);
+		infLabel.setBounds(29, 96, 208, 14);
+		contentPane.add(infLabel);
 		
 		JButton btnAadir = new JButton("Añadir");
 		btnAadir.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				PersonController.add();
-				label.setText("Nueva persona creada: "+getText());
+				infLabel.setText("Nueva persona creada: "+getText());
 			}
 		});
 		btnAadir.setBounds(227, 213, 89, 23);

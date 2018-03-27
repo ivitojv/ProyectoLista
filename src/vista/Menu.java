@@ -1,5 +1,7 @@
 package vista;
 import controlador.*;
+
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -57,15 +59,16 @@ public class Menu {
 		btnCrearPersona.setBounds(37, 156, 132, 23);
 		frame.getContentPane().add(btnCrearPersona);
 		
-		JLabel label = new JLabel("");
-		label.setBounds(37, 117, 387, 14);
-		frame.getContentPane().add(label);
+		JLabel infLabel = new JLabel("");
+		infLabel.setForeground(Color.red);
+		infLabel.setBounds(37, 117, 387, 14);
+		frame.getContentPane().add(infLabel);
 		
 		JButton btnNewButton = new JButton("Entrar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(PersonController.login(textField.getText()));
-				else label.setText("Esa persona no está en el sistema");
+				else infLabel.setText("Esa persona no está en el sistema");
 			}
 		});
 		btnNewButton.setBounds(292, 68, 132, 23);

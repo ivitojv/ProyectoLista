@@ -12,6 +12,7 @@ import controlador.TargetController;
 import modelo.Tarjeta;
 import utilities.Sesion;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -67,9 +68,10 @@ public class DetalleTarjeta extends JFrame {
 		//description.setBounds(83, 43, 321, 29);
 		panel.add(description);
 		
-		JLabel information = new JLabel("");
-		information.setBounds(0, 191, 424, 20);
-		panel.add(information);
+		JLabel infLabel = new JLabel("");
+		infLabel.setForeground(Color.red);
+		infLabel.setBounds(0, 191, 424, 20);
+		panel.add(infLabel);
 		
 		JComboBox date_y = new JComboBox();
 		date_y.setBounds(212, 69, 81, 20);
@@ -158,15 +160,15 @@ public class DetalleTarjeta extends JFrame {
 						String date = date_y.getSelectedItem()+"-"+date_m.getSelectedItem()+"-"+((int)date_d.getSelectedItem()+1);
 						if(TargetController.mod(tarjeta,title.getText(),date,description.getText(),chckbxFinalizada.isSelected())) {
 							System.out.println("DetalleTarjeta "+description.getText());
-							information.setText("Tarjeta Guardada");
-						}else information.setText("ERROR: fecha fin >= fecha actual");
+							infLabel.setText("Tarjeta Guardada");
+						}else infLabel.setText("ERROR: fecha fin >= fecha actual");
 					}else {
 						if(TargetController.mod(tarjeta,title.getText(),"",description.getText(),chckbxFinalizada.isSelected())) {
 							System.out.println("DetalleTarjeta "+description.getText());
-							information.setText("Tarjeta Guardada");
+							infLabel.setText("Tarjeta Guardada");
 						}
 					}				
-				}else information.setText("Es necesario que tenga título");
+				}else infLabel.setText("Es necesario que tenga título");
 			}
 		});
 		

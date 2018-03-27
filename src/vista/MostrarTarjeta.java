@@ -1,5 +1,6 @@
 package vista;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -59,7 +60,8 @@ public class MostrarTarjeta extends JFrame {
 		scrollPane.setViewportBorder(UIManager.getBorder("ScrollPane.border"));
 		
 		JLabel infLabel = new JLabel("");
-		infLabel.setBounds(98, 11, 227, 14);
+		infLabel.setForeground(Color.red);
+		infLabel.setBounds(98, 11, 184, 14);
 		contentPane.add(infLabel);
 
 		scrollPane.setBounds(0, 36, 434, 182);
@@ -70,7 +72,7 @@ public class MostrarTarjeta extends JFrame {
 		loadContainer(tShowed);
 		
 		JComboBox<String> filters = new JComboBox<String>();
-		filters.setBounds(335, 8, 99, 20);
+		filters.setBounds(305, 8, 129, 20);
 		contentPane.add(filters);
 		filters.addItem("Ordenación");
 		filters.addItem("Ord. A-Z");

@@ -1,5 +1,6 @@
 package vista;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
@@ -56,9 +57,10 @@ public class MenuPersona extends JFrame {
 		textArea.setBounds(202, 94, 197, 82);
 		contentPane.add(textArea);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(20, 193, 404, 23);
-		contentPane.add(lblNewLabel);
+		JLabel infLabel = new JLabel("");
+		infLabel.setForeground(Color.red);
+		infLabel.setBounds(20, 193, 404, 23);
+		contentPane.add(infLabel);
 		
 		JButton btnAadirTarjeta = new JButton("Añadir Tarjeta");
 		btnAadirTarjeta.addActionListener(new ActionListener(){
@@ -66,10 +68,10 @@ public class MenuPersona extends JFrame {
 				if(textField.getText().length() > 0) {
 					if(TargetController.add(sesion.person(),textField.getText(),textField_1.getText(),textArea.getText())) {
 						System.out.println("MenuPersona "+textArea.getText());
-						lblNewLabel.setText("Tarjeta Creada");
+						infLabel.setText("Tarjeta Creada");
 					}
-					else lblNewLabel.setText("Fallo en el campo fecha. Pista: fecha fin >= fecha actual");
-				}else lblNewLabel.setText("Es necesario que tenga título");
+					else infLabel.setText("Fallo en el campo fecha. Pista: fecha fin >= fecha actual");
+				}else infLabel.setText("Es necesario que tenga título");
 			}
 		});
 		btnAadirTarjeta.setBounds(20, 227, 114, 23);
