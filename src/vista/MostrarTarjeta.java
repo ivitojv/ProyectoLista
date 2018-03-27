@@ -156,8 +156,9 @@ public class MostrarTarjeta extends JFrame {
 				if(group.getSelection()!=null) {
 					TargetController.borrarTarjeta(selectedTarget);
 					contenedor.remove(tShowed.indexOf(selectedTarget));
+					//System.out.println("MostrarTarjeta Borrar-> "+tShowed.size());
 					tarjetas.remove(tarjetas.indexOf(selectedTarget));
-					tShowed.remove(tShowed.indexOf(selectedTarget));
+					//System.out.println("MostrarTarjeta Borrar-> "+tShowed.size());
 					group.clearSelection();
 					contenedor.updateUI();					
 				}
