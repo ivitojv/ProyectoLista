@@ -37,7 +37,9 @@ object TargetController extends Controller{
     try{
       val in = new ObjectInputStream(new FileInputStream(filename))
       tarjetas = in.readObject().asInstanceOf[ArrayBuffer[Tarjeta]]
-    }catch {case _ => println("fail_tarjetas")}
+    }catch {
+      case e: Exception => e.printStackTrace()
+      }
   }
   private def checkDate(date:String) = if(regex.findAllIn(date).length>0) if(format.parse(date).after(new Date())) true else false else false
   def add(author:Person,title:String,fecha:String,comment:String)={

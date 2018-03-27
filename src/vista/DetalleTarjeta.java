@@ -5,15 +5,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import controlador.TargetController;
 import modelo.Tarjeta;
 import utilities.Sesion;
 
 import java.awt.Color;
-import java.awt.GridLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -73,7 +71,7 @@ public class DetalleTarjeta extends JFrame {
 		infLabel.setBounds(0, 191, 424, 20);
 		panel.add(infLabel);
 		
-		JComboBox date_y = new JComboBox();
+		JComboBox<Integer> date_y = new JComboBox<Integer>();
 		date_y.setBounds(212, 69, 81, 20);
 		panel.add(date_y);
 		for(int i = 0; i < 100; i++) {
@@ -81,14 +79,14 @@ public class DetalleTarjeta extends JFrame {
 		}
 		
 		
-		JComboBox date_m = new JComboBox();
+		JComboBox<Integer> date_m = new JComboBox<Integer>();
 		date_m.setBounds(303, 69, 47, 20);
 		panel.add(date_m);
 		for(int i = 0; i < 12; i++) {
 			date_m.addItem(i+1);
 		}
 		
-		JComboBox date_d = new JComboBox();
+		JComboBox<Integer> date_d = new JComboBox<Integer>();
 		date_d.setBounds(367, 69, 47, 20);
 		panel.add(date_d);
 		for(int i = 0; i < 31; i++) {
@@ -146,7 +144,7 @@ public class DetalleTarjeta extends JFrame {
 			System.out.println(tarjeta.date().getYear());
 			date_y.setSelectedIndex(tarjeta.date().getYear()-118);
 			date_m.setSelectedIndex(tarjeta.date().getMonth());
-			date_d.setSelectedIndex(tarjeta.date().getDate()-2);
+			date_d.setSelectedIndex(tarjeta.date().getDate()-1);
 		}
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setBounds(61, 227, 89, 23);
@@ -157,9 +155,9 @@ public class DetalleTarjeta extends JFrame {
 				if(title.getText().length() > 0) {
 					//System.out.println("DetalleTarjeta "+date.getText());
 					if(chckbxActivar.isSelected()) {
-						String date = date_y.getSelectedItem()+"-"+date_m.getSelectedItem()+"-"+((int)date_d.getSelectedItem()+1);
+						String date = date_y.getSelectedItem()+"-"+date_m.getSelectedItem()+"-"+ date_d.getSelectedItem();
+						System.out.println("DetalleTarjeta "+date);
 						if(TargetController.mod(tarjeta,title.getText(),date,description.getText(),chckbxFinalizada.isSelected())) {
-							System.out.println("DetalleTarjeta "+description.getText());
 							infLabel.setText("Tarjeta Guardada");
 						}else infLabel.setText("ERROR: fecha fin >= fecha actual");
 					}else {
