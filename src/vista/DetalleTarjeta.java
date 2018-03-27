@@ -67,9 +67,9 @@ public class DetalleTarjeta extends JFrame {
 		//description.setBounds(83, 43, 321, 29);
 		panel.add(description);
 		
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setBounds(0, 168, 424, 32);
-		panel.add(lblNewLabel_1);
+		JLabel information = new JLabel("");
+		information.setBounds(0, 191, 424, 20);
+		panel.add(information);
 		
 		JComboBox date_y = new JComboBox();
 		date_y.setBounds(212, 69, 81, 20);
@@ -101,6 +101,20 @@ public class DetalleTarjeta extends JFrame {
 		JCheckBox chckbxActivar = new JCheckBox("Activar");
 		chckbxActivar.setBounds(96, 68, 97, 23);
 		panel.add(chckbxActivar);
+		
+		JLabel lblAsignadaA = new JLabel("Asignada a:");
+		lblAsignadaA.setBounds(0, 168, 70, 14);
+		panel.add(lblAsignadaA);
+		
+		JLabel authorLabel = new JLabel(tarjeta.author().name());
+		authorLabel.setBounds(80, 166, 132, 14);
+		panel.add(authorLabel);
+		
+		JCheckBox chckbxFinalizada = new JCheckBox("Finalizada");
+		chckbxFinalizada.setBounds(317, 161, 97, 23);
+		panel.add(chckbxFinalizada);
+		chckbxFinalizada.setSelected(tarjeta.finalizada());
+		
 		chckbxActivar.addActionListener(new ActionListener() {
 
 			@Override
@@ -143,17 +157,17 @@ public class DetalleTarjeta extends JFrame {
 					//System.out.println("DetalleTarjeta "+date.getText());
 					if(chckbxActivar.isSelected()) {
 						String date = date_y.getSelectedItem()+"-"+date_m.getSelectedItem()+"-"+((int)date_d.getSelectedItem()+1);
-						if(TargetController.mod(tarjeta,title.getText(),date,description.getText())) {
+						if(TargetController.mod(tarjeta,title.getText(),date,description.getText(),chckbxFinalizada.isSelected())) {
 							System.out.println("DetalleTarjeta "+description.getText());
-							lblNewLabel_1.setText("Tarjeta Guardada");
-						}else lblNewLabel_1.setText("ERROR: fecha fin >= fecha actual");
+							information.setText("Tarjeta Guardada");
+						}else information.setText("ERROR: fecha fin >= fecha actual");
 					}else {
-						if(TargetController.mod(tarjeta,title.getText(),"",description.getText())) {
+						if(TargetController.mod(tarjeta,title.getText(),"",description.getText(),chckbxFinalizada.isSelected())) {
 							System.out.println("DetalleTarjeta "+description.getText());
-							lblNewLabel_1.setText("Tarjeta Guardada");
+							information.setText("Tarjeta Guardada");
 						}
 					}				
-				}else lblNewLabel_1.setText("Es necesario que tenga título");
+				}else information.setText("Es necesario que tenga título");
 			}
 		});
 		

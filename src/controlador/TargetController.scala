@@ -43,17 +43,19 @@ object TargetController extends Controller{
       true
     }else false
   }
-  def mod(t:Tarjeta, title:String, date:String, comment:String)={
+  def mod(t:Tarjeta, title:String, date:String, comment:String, fin:Boolean)={
     if(checkDate(date)){
       t.title = title
       t.date = format.parse(date)
       t.comment = comment
+      t.finalizada = fin
       saveOnFile(tarjetas,FILENAME)
       true
      }else if(date == ""){
       t.title = title
       t.date = null
       t.comment = comment
+      t.finalizada = fin
       saveOnFile(tarjetas,FILENAME)
       true
     }else false
