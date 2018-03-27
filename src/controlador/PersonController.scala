@@ -17,7 +17,9 @@ object PersonController extends Controller {
     try {  
       val in = new ObjectInputStream(new FileInputStream(filename))
       personas = in.readObject().asInstanceOf[ArrayBuffer[Person]]
-    }catch {case _ => println("fail_personas")}
+    }catch {
+      case e: Exception => e.printStackTrace()
+      }
   }
   def callCrearPersona {
     try {

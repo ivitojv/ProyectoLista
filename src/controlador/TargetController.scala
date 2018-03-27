@@ -89,5 +89,5 @@ object TargetController extends Controller{
       case e: Exception => e.printStackTrace()
     }
   }
-  def borrarTarjeta(t:Tarjeta) {for(elem<-tarjetas;if(t==elem))tarjetas-=elem;saveOnFile(tarjetas,FILENAME)}
+  def borrarTarjeta(t:Tarjeta) {tarjetas-=t;saveOnFile(tarjetas,FILENAME)}
 }
