@@ -16,13 +16,12 @@ object TargetController extends Controller{
   var author = ""
   private val regex = """[0-9][0-9][0-9][0-9]-[0-1]?[0-9]-[0-3]?[0-9]""".r
   private val format = new SimpleDateFormat("yyyy-MM-dd")
-  private val FILENAME = "tarjetas.obj"
   val AZ = 0
   val ZA = 1
   val DATE = 2
   val END = 3
-  
-  cargarTarjetas(FILENAME)
+ 
+  //cargarTarjetas(FILENAME)
   def getTarjetas(ss:Sesion):List[Tarjeta]=for(elem<-tarjetas; if(elem.author.name == ss.person.name)) yield elem
   
   def ordFiltT(tjs:List[Tarjeta], op:Int):List[Tarjeta]={
@@ -33,26 +32,25 @@ object TargetController extends Controller{
       case END => tjs.filter(_.finalizada)
     }
   }
+  /*
   private def cargarTarjetas(filename: String) {
     try{
       val in = new ObjectInputStream(new FileInputStream(filename))
-      tarjetas = in.readObject().asInstanceOf[ArrayBuffer[Tarjeta]]
+      listas = in.readObject().asInstanceOf[ArrayBuffer[ListaT]]
     }catch {
       case e: Exception => e.printStackTrace()
       }
   }
+  */
   private def checkDate(date:String) = if(regex.findAllIn(date).length>0) if(format.parse(date).after(new Date())) true else false else false
   def add(author:Person,title:String,fecha:String,comment:String)={
     if(checkDate(fecha)){
-      println("TargetController "+comment)
       tarjetas += new Tarjeta(author,title,format.parse(fecha),comment)
-      println("TargetController "+tarjetas.last.comment)
-      saveOnFile(tarjetas,FILENAME)
+      //saveOnFile(tarjetas,FILENAME)
       true
     }else if(fecha == ""){
       tarjetas += new Tarjeta(author,title,comment)
-      println("TargetController "+tarjetas.last.comment)
-      saveOnFile(tarjetas,FILENAME)
+      //saveOnFile(tarjetas,FILENAME)
       true
     }else false
   }
@@ -62,14 +60,14 @@ object TargetController extends Controller{
       t.date = format.parse(date)
       t.comment = comment
       t.finalizada = fin
-      saveOnFile(tarjetas,FILENAME)
+      //saveOnFile(tarjetas,FILENAME)
       true
      }else if(date == ""){
       t.title = title
       t.date = null
       t.comment = comment
       t.finalizada = fin
-      saveOnFile(tarjetas,FILENAME)
+      //saveOnFile(tarjetas,FILENAME)
       true
     }else false
   }
@@ -81,15 +79,13 @@ object TargetController extends Controller{
       case e: Exception => e.printStackTrace()
     }
   }
-  def callMostrarTarjeta(ss:Sesion){
-    for(e<-tarjetas)println("callMostrarTarjeta "+e.author.name)
-    val pt = getTarjetas(ss)
+  def callMostrarTarjeta(list:ListaT,ss:Sesion){
     try {
-      frame = new MostrarTarjeta(pt,ss)
+      frame = new MostrarTarjeta(list.lista,ss)
       frame.setVisible(true)
     } catch {
       case e: Exception => e.printStackTrace()
     }
   }
-  def borrarTarjeta(t:Tarjeta) {tarjetas-=t;saveOnFile(tarjetas,FILENAME)}
+  def borrarTarjeta(t:Tarjeta) {tarjetas-=t;}//saveOnFile(tarjetas,FILENAME)}
 }

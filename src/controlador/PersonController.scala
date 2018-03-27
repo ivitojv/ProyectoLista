@@ -28,14 +28,7 @@ object PersonController extends Controller {
       case e: Exception => e.printStackTrace();
     }
   }
-  def callMenu(ss: Sesion) {
-    try {
-      frame = new MenuPersona(ss);
-      frame.setVisible(true);
-    } catch {
-      case e: Exception => e.printStackTrace();
-    }
-  }
+  
   def add(name:String) {
     personas += new Person(name)
     saveOnFile(personas,FILENAME)
@@ -52,7 +45,7 @@ object PersonController extends Controller {
   def login(p: String) = {
     val pp = lookForPerson(p)
     if (pp != null) {
-      PersonController.callMenu(new Sesion(pp))
+      ListController.callMenu(new Sesion(pp))
       true
     } else false
   }

@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controlador.TargetController;
-import modelo.Tarjeta;
+import modelo.*;
 import utilities.Sesion;
 
 
@@ -114,12 +114,6 @@ public class MostrarTarjeta extends JFrame {
 			
 		});
 		
-		
-		/*
-		JButton btnBorrar = new JButton("Borrar");
-		btnBorrar.setBounds(320, 21, 89, 23);
-		contentPane.add(btnBorrar);
-*/
 		JButton btnAtrs = new JButton("Atrás");
 		btnAtrs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
