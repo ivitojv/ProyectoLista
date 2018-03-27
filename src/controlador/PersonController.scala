@@ -35,9 +35,12 @@ object PersonController extends Controller {
       case e: Exception => e.printStackTrace();
     }
   }
-  def add {
-    var frameX = frame.asInstanceOf[CrearPersona] 
-    personas += new Person(frameX.getText)
+  def add(name:String) {
+    personas += new Person(name)
+    saveOnFile(personas,FILENAME)
+  }
+  def delete(name:String){
+    personas -= lookForPerson(name)
     saveOnFile(personas,FILENAME)
   }
   def lookForPerson(p: String) = {
