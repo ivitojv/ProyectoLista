@@ -22,6 +22,7 @@ import javax.swing.JCheckBox;
 public class DetalleTarjeta extends JFrame {
 
 	private JPanel contentPane;
+	private JComboBox<Integer> date_d = new JComboBox<Integer>();
 
 	/**
 	 * Create the frame.
@@ -86,12 +87,39 @@ public class DetalleTarjeta extends JFrame {
 			date_m.addItem(i+1);
 		}
 		
-		JComboBox<Integer> date_d = new JComboBox<Integer>();
+		
 		date_d.setBounds(367, 69, 47, 20);
 		panel.add(date_d);
+		/*
 		for(int i = 0; i < 31; i++) {
 			date_d.addItem(i+1);
 		}
+		*/
+		date_m.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int lastD = date_d.getSelectedIndex();
+				date_d.removeAllItems();
+				loadDays((int)date_m.getSelectedItem(),(int)date_y.getSelectedItem());
+				if(date_d.getItemCount()>lastD)
+					date_d.setSelectedIndex(lastD);
+			}
+			
+		});
+		
+		date_y.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int lastD = date_d.getSelectedIndex();
+				date_d.removeAllItems();
+				loadDays((int)date_m.getSelectedItem(),(int)date_y.getSelectedItem());
+				if(date_d.getItemCount()>lastD)
+					date_d.setSelectedIndex(lastD);
+			}
+			
+		});
 		
 		JLabel lblYearMonthDay = new JLabel("Year                        Month            Day");
 		lblYearMonthDay.setBounds(212, 49, 202, 14);
@@ -173,7 +201,6 @@ public class DetalleTarjeta extends JFrame {
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.setBounds(272, 227, 89, 23);
 		contentPane.add(btnAtras);
-		
 
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -181,5 +208,44 @@ public class DetalleTarjeta extends JFrame {
 			}
 		});
 		
+	}
+	
+	private int daysOfMonth(int month) {
+		switch(month) {
+		case 1:
+			return 31;
+		case 2:
+			return 28;
+		case 3:
+			return 31;
+		case 4:
+			return 30;
+		case 5:
+			return 31;
+		case 6:
+			return 30;
+		case 7:
+			return 31;
+		case 8:
+			return 31;
+		case 9:
+			return 30;
+		case 10:
+			return 31;
+		case 11:
+			return 30;
+		case 12:
+			return 31;
+		}
+		return -1;
+	}
+	
+	private void loadDays (int month, int year){
+		int i = 0;
+		for(i = 0; i < daysOfMonth(month); i++) {
+			date_d.addItem(i+1);
+		}
+		if(month==2 && year%4 == 0 && (year%100 != 0 || year%400 == 0))
+			date_d.addItem(i+1);
 	}
 }
