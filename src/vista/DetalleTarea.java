@@ -92,6 +92,9 @@ public class DetalleTarea extends JFrame {
 		JComboBox<Integer> date_d = new JComboBox<Integer>();
 		date_d.setBounds(367, 69, 47, 20);
 		panel.add(date_d);
+		for(int i = 0; i < 31; i++) {
+			date_d.addItem(i+1);
+		}
 		
 		date_m.addActionListener(new ActionListener() {
 
@@ -129,10 +132,6 @@ public class DetalleTarea extends JFrame {
 		lblYearMonthDay.setBounds(212, 49, 202, 14);
 		panel.add(lblYearMonthDay);
 		
-		JCheckBox chckbxActivar = new JCheckBox("Activar");
-		chckbxActivar.setBounds(96, 68, 97, 23);
-		panel.add(chckbxActivar);
-		
 		JLabel lblAsignadaA = new JLabel("Asignada a:");
 		lblAsignadaA.setBounds(0, 168, 70, 14);
 		panel.add(lblAsignadaA);
@@ -146,6 +145,9 @@ public class DetalleTarea extends JFrame {
 		panel.add(chckbxFinalizada);
 		chckbxFinalizada.setSelected(tarea.finalizada());
 		
+		JCheckBox chckbxActivar = new JCheckBox("Activar");
+		chckbxActivar.setBounds(96, 68, 97, 23);
+		panel.add(chckbxActivar);	
 		chckbxActivar.addActionListener(new ActionListener() {
 
 			@Override
@@ -174,6 +176,7 @@ public class DetalleTarea extends JFrame {
 			date_y.setSelectedIndex(tarea.date().getYear()-118);
 			date_m.setSelectedIndex(tarea.date().getMonth());
 			
+			date_d.removeAllItems();
 			int days = DateManage.daysOfMonth((int)date_m.getSelectedItem(),(int)date_y.getSelectedItem());
 			for(int i = 0; i < days; i++) {
 				date_d.addItem(i+1);
