@@ -118,9 +118,10 @@ public class MenuPersona extends JFrame {
 		btnMostrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//System.out.println(group.getSelection());
-				if(group.getSelection()!=null)
+				if(group.getSelection()!=null) {
 					ListController.callMostrarLista(sesion,selectedList);
-				else
+					dispose();
+				}else
 					infLabel.setText("Debes escoger una lista");
 					
 			}

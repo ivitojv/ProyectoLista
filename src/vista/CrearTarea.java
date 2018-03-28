@@ -19,8 +19,8 @@ import utilities.Sesion;
 public class CrearTarea extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textFieldTitle;
+	private JTextField textFieldFecha;
 	private Sesion sesion;
 
 
@@ -38,27 +38,27 @@ public class CrearTarea extends JFrame {
 		lblTtulo.setBounds(20, 24, 46, 14);
 		contentPane.add(lblTtulo);
 		
-		textField = new JTextField();
-		textField.setBounds(202, 21, 197, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textFieldTitle = new JTextField();
+		textFieldTitle.setBounds(202, 21, 197, 20);
+		contentPane.add(textFieldTitle);
+		textFieldTitle.setColumns(10);
 		
 		JLabel lblFechayyyymmdd = new JLabel("Fecha Fin(YYYY-MM-DD): ");
 		lblFechayyyymmdd.setBounds(20, 60, 172, 14);
 		contentPane.add(lblFechayyyymmdd);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(202, 57, 197, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		textFieldFecha = new JTextField();
+		textFieldFecha.setBounds(202, 57, 197, 20);
+		contentPane.add(textFieldFecha);
+		textFieldFecha.setColumns(10);
 		
 		JLabel lblComentario = new JLabel("Comentario: ");
 		lblComentario.setBounds(20, 99, 114, 14);
 		contentPane.add(lblComentario);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(202, 94, 197, 82);
-		contentPane.add(textArea);
+		JTextArea comments = new JTextArea();
+		comments.setBounds(202, 94, 197, 82);
+		contentPane.add(comments);
 		
 		JLabel infLabel = new JLabel("");
 		infLabel.setForeground(Color.red);
@@ -70,9 +70,9 @@ public class CrearTarea extends JFrame {
 		contentPane.add(btnAadirTarea);
 		btnAadirTarea.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				if(textField.getText().length() > 0) {
-					if(TaskController.add(sesion,textField.getText(),textField_1.getText(),textArea.getText())) {
-						System.out.println("CrearTarea "+textArea.getText());
+				if(textFieldTitle.getText().length() > 0) {
+					if(TaskController.add(sesion,textFieldTitle.getText(),textFieldFecha.getText(),comments.getText())) {
+						System.out.println("CrearTarea "+comments.getText());
 						infLabel.setText("Tarea Creada");
 					}
 					else infLabel.setText("Fallo en el campo fecha. Pista: fecha fin >= fecha actual");

@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controlador.TaskController;
+import controlador.ListController;
 import modelo.*;
 import utilities.Sesion;
 
@@ -117,6 +118,7 @@ public class MostrarLista extends JFrame {
 		JButton btnAtrs = new JButton("Atrás");
 		btnAtrs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ListController.callMenu(sesion);
 				dispose();
 			}
 		});
