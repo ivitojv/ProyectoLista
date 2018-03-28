@@ -62,14 +62,14 @@ public class CrearPersona extends JFrame {
 		});
 		btnAadir.setBounds(114, 213, 89, 23);
 		contentPane.add(btnAadir);
-		JButton btnCancelar = new JButton("Atrás");
-		btnCancelar.addActionListener(new ActionListener(){
+		JButton btnAtras = new JButton("Atrás");
+		btnAtras.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(335, 213, 89, 23);
-		contentPane.add(btnCancelar);
+		btnAtras.setBounds(335, 213, 89, 23);
+		contentPane.add(btnAtras);
 		
 		JButton btnNewButton = new JButton("Borrar");
 		btnNewButton.addActionListener(new ActionListener() {

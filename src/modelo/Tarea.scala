@@ -1,7 +1,7 @@
 package modelo
 
 import java.util.Date
-class Tarjeta(val author:Person,var title:String) extends Serializable {
+class Tarea(val author:Person,var title:String) extends Serializable {
   var date:Date = null
   var comment = ""
   var finalizada = false

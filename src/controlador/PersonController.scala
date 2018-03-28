@@ -8,12 +8,11 @@ import collection.mutable.ArrayBuffer
 import java.io._
 
 object PersonController extends Controller {
-  frame = null
   var personas = ArrayBuffer.empty[Person]
-  val FILENAME = "personas.obj"
+  private val FILENAME = "personas.obj"
   cargarPersonas(FILENAME)
 
-  def cargarPersonas(filename: String) {
+  private def cargarPersonas(filename: String) {
     try {  
       val in = new ObjectInputStream(new FileInputStream(filename))
       personas = in.readObject().asInstanceOf[ArrayBuffer[Person]]
@@ -29,14 +28,7 @@ object PersonController extends Controller {
       case e: Exception => e.printStackTrace();
     }
   }
-  def callMenu(ss: Sesion) {
-    try {
-      frame = new MenuPersona(ss);
-      frame.setVisible(true);
-    } catch {
-      case e: Exception => e.printStackTrace();
-    }
-  }
+  
   def add(name:String) {
     personas += new Person(name)
     saveOnFile(personas,FILENAME)
@@ -53,7 +45,7 @@ object PersonController extends Controller {
   def login(p: String) = {
     val pp = lookForPerson(p)
     if (pp != null) {
-      PersonController.callMenu(new Sesion(pp))
+      ListController.callMenu(new Sesion(pp))
       true
     } else false
   }
