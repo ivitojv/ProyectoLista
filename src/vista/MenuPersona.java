@@ -23,7 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import controlador.ListController;
-import controlador.TargetController;
+import controlador.TaskController;
 import modelo.*;
 import utilities.Sesion;
 public class MenuPersona extends JFrame {
@@ -52,9 +52,9 @@ public class MenuPersona extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblTusTarjetas = new JLabel("Tus Listas:");
-		lblTusTarjetas.setBounds(10, 11, 76, 14);
-		contentPane.add(lblTusTarjetas);
+		JLabel lblTusListas = new JLabel("Tus Listas:");
+		lblTusListas.setBounds(10, 11, 76, 14);
+		contentPane.add(lblTusListas);
 		scrollPane.setViewportBorder(UIManager.getBorder("ScrollPane.border"));
 		
 		JLabel infLabel = new JLabel("");
@@ -62,7 +62,7 @@ public class MenuPersona extends JFrame {
 		infLabel.setBounds(98, 11, 184, 14);
 		contentPane.add(infLabel);
 
-		scrollPane.setBounds(0, 36, 434, 182);
+		scrollPane.setBounds(0, 36, 293, 182);
 		contentPane.add(scrollPane);
 
 		System.out.println("vista.MenuPersona " + listas.size());
@@ -70,7 +70,7 @@ public class MenuPersona extends JFrame {
 		loadContainer(lShowed);
 		
 		JComboBox<String> filters = new JComboBox<String>();
-		filters.setBounds(305, 8, 129, 20);
+		filters.setBounds(292, 8, 129, 20);
 		contentPane.add(filters);
 		filters.addItem("Ordenación");
 		filters.addItem("Ord. A-Z");
@@ -96,7 +96,7 @@ public class MenuPersona extends JFrame {
 					group.clearSelection();
 					break;
 				default:
-					System.out.println("ERROR: MostrarTarjeta-> filtes.actionListener "+ filters.getSelectedItem());
+					System.out.println("ERROR: MostrarTarea-> filtes.actionListener "+ filters.getSelectedItem());
 				}
 				
 			}
@@ -109,17 +109,17 @@ public class MenuPersona extends JFrame {
 				dispose();
 			}
 		});
-		btnAtrs.setBounds(0, 227, 89, 23);
+		btnAtrs.setBounds(303, 227, 118, 23);
 		contentPane.add(btnAtrs);
 		
 		JButton btnMostrar = new JButton("Mostrar");
-		btnMostrar.setBounds(232, 227, 89, 23);
+		btnMostrar.setBounds(303, 36, 121, 23);
 		contentPane.add(btnMostrar);
 		btnMostrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//System.out.println(group.getSelection());
 				if(group.getSelection()!=null)
-					ListController.callMostrarLista(selectedList,sesion);
+					ListController.callMostrarLista(sesion,selectedList);
 				else
 					infLabel.setText("Debes escoger una lista");
 					
@@ -127,7 +127,7 @@ public class MenuPersona extends JFrame {
 		});
 		
 		JButton btnBorrar = new JButton("Borrar");
-		btnBorrar.setBounds(335, 227, 89, 23);
+		btnBorrar.setBounds(300, 104, 121, 23);
 		contentPane.add(btnBorrar);	
 		
 		JButton btnCrearLista = new JButton("Crear lista");
@@ -137,8 +137,23 @@ public class MenuPersona extends JFrame {
 				dispose();
 			}
 		});
-		btnCrearLista.setBounds(98, 227, 124, 23);
+		btnCrearLista.setBounds(10, 227, 124, 23);
 		contentPane.add(btnCrearLista);
+		
+		JButton btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(group.getSelection()!=null) {
+					ListController.callModificarLista(sesion,selectedList);
+					dispose();
+				}
+				else
+					infLabel.setText("Debes escoger una lista");
+					
+			}
+		});
+		btnModificar.setBounds(303, 70, 118, 23);
+		contentPane.add(btnModificar);
 		
 		
 		btnBorrar.addActionListener(new ActionListener() {
@@ -146,9 +161,9 @@ public class MenuPersona extends JFrame {
 				if(group.getSelection()!=null) {
 					ListController.borrarLista(selectedList);
 					contenedor.remove(lShowed.indexOf(selectedList));
-					//System.out.println("MostrarTarjeta Borrar-> "+tShowed.size());
+					//System.out.println("MostrarTarea Borrar-> "+tShowed.size());
 					listas.remove(listas.indexOf(selectedList));
-					//System.out.println("MostrarTarjeta Borrar-> "+tShowed.size());
+					//System.out.println("MostrarTarea Borrar-> "+tShowed.size());
 					group.clearSelection();
 					contenedor.updateUI();					
 				}

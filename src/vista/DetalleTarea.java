@@ -6,9 +6,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import controlador.TargetController;
+import controlador.TaskController;
 import controlador.ListController;
-import modelo.Tarjeta;
+import modelo.*;
 import utilities.Sesion;
 
 import java.awt.Color;
@@ -20,7 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 
-public class DetalleTarjeta extends JFrame {
+public class DetalleTarea extends JFrame {
 
 	private JPanel contentPane;
 	private JComboBox<Integer> date_d = new JComboBox<Integer>();
@@ -29,7 +29,7 @@ public class DetalleTarjeta extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public DetalleTarjeta(Tarjeta tarjeta, Sesion ss) {
+	public DetalleTarea(Tarea tarea, Sesion ss) {
 		this.sesion = ss;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -48,7 +48,7 @@ public class DetalleTarjeta extends JFrame {
 		//lblNewLabel.setBounds(10, 11, 46, 14);
 		panel.add(lblNewLabel);
 		
-		JTextField title = new JTextField(tarjeta.title());
+		JTextField title = new JTextField(tarea.title());
 		title.setBounds(212, 1, 212, 37);
 		//title.setBounds(66, 11, 169, 14);
 		panel.add(title);
@@ -64,9 +64,9 @@ public class DetalleTarjeta extends JFrame {
 		panel.add(lblDescripcin);
 
 
-		JTextField description = new JTextField(tarjeta.comment());
+		JTextField description = new JTextField(tarea.comment());
 		description.setBounds(212, 105, 212, 52);
-		System.out.println("vista.MostrarTarjeta "+tarjeta.comment());
+		System.out.println("vista.MostrarTarea "+tarea.comment());
 		//description.setBounds(83, 43, 321, 29);
 		panel.add(description);
 		
@@ -139,26 +139,26 @@ public class DetalleTarjeta extends JFrame {
 		lblAsignadaA.setBounds(0, 168, 70, 14);
 		panel.add(lblAsignadaA);
 		
-		JLabel authorLabel = new JLabel(tarjeta.author().name());
+		JLabel authorLabel = new JLabel(tarea.author().name());
 		authorLabel.setBounds(80, 166, 132, 14);
 		panel.add(authorLabel);
 		
 		JCheckBox chckbxFinalizada = new JCheckBox("Finalizada");
 		chckbxFinalizada.setBounds(317, 161, 97, 23);
 		panel.add(chckbxFinalizada);
-		chckbxFinalizada.setSelected(tarjeta.finalizada());
+		chckbxFinalizada.setSelected(tarea.finalizada());
 		
 		chckbxActivar.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(chckbxActivar.isSelected()) {
-					System.out.println("DetaleTarjeta: ckbx->Selected");
+					System.out.println("DetaleTarea: ckbx->Selected");
 					date_y.setEnabled(true);
 					date_m.setEnabled(true);
 					date_d.setEnabled(true);
 				}else {
-					System.out.println("DetaleTarjeta: ckbx->Not selected");
+					System.out.println("DetaleTarea: ckbx->Not selected");
 					date_y.setEnabled(false);
 					date_m.setEnabled(false);
 					date_d.setEnabled(false);
@@ -167,15 +167,15 @@ public class DetalleTarjeta extends JFrame {
 			
 		});
 		
-		if(tarjeta.date()!= null) {
+		if(tarea.date()!= null) {
 			chckbxActivar.setSelected(true);
 			date_y.setEnabled(true);
 			date_m.setEnabled(true);
 			date_d.setEnabled(true);
-			System.out.println(tarjeta.date().getYear());
-			date_y.setSelectedIndex(tarjeta.date().getYear()-118);
-			date_m.setSelectedIndex(tarjeta.date().getMonth());
-			date_d.setSelectedIndex(tarjeta.date().getDate()-1);
+			System.out.println(tarea.date().getYear());
+			date_y.setSelectedIndex(tarea.date().getYear()-118);
+			date_m.setSelectedIndex(tarea.date().getMonth());
+			date_d.setSelectedIndex(tarea.date().getDate()-1);
 		}
 		
 		JButton btnGuardar = new JButton("Guardar");
@@ -183,19 +183,19 @@ public class DetalleTarjeta extends JFrame {
 		contentPane.add(btnGuardar);
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//System.out.println("DetalleTarjeta "+title.getText());
+				//System.out.println("DetalleTarea "+title.getText());
 				if(title.getText().length() > 0) {
-					//System.out.println("DetalleTarjeta "+date.getText());
+					//System.out.println("DetalleTarea "+date.getText());
 					if(chckbxActivar.isSelected()) {
 						String date = date_y.getSelectedItem()+"-"+date_m.getSelectedItem()+"-"+ date_d.getSelectedItem();
-						System.out.println("DetalleTarjeta "+date);
-						if(TargetController.mod(tarjeta,title.getText(),date,description.getText(),chckbxFinalizada.isSelected())) {
-							infLabel.setText("Tarjeta Guardada");
+						System.out.println("DetalleTarea "+date);
+						if(TaskController.mod(tarea,title.getText(),date,description.getText(),chckbxFinalizada.isSelected())) {
+							infLabel.setText("Tarea Guardada");
 						}else infLabel.setText("ERROR: fecha fin >= fecha actual");
 					}else {
-						if(TargetController.mod(tarjeta,title.getText(),"",description.getText(),chckbxFinalizada.isSelected())) {
-							System.out.println("DetalleTarjeta "+description.getText());
-							infLabel.setText("Tarjeta Guardada");
+						if(TaskController.mod(tarea,title.getText(),"",description.getText(),chckbxFinalizada.isSelected())) {
+							System.out.println("DetalleTarea "+description.getText());
+							infLabel.setText("Tarea Guardada");
 						}
 					}				
 				}else infLabel.setText("Es necesario que tenga título");
@@ -208,7 +208,7 @@ public class DetalleTarjeta extends JFrame {
 
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListController.callMostrarLista(sesion.lista(), sesion);
+				ListController.callMostrarLista(sesion,sesion.lista());
 				dispose();
 			}
 		});

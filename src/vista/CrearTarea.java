@@ -12,11 +12,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import controlador.TargetController;
+import controlador.TaskController;
 import controlador.ListController;
 import utilities.Sesion;
 
-public class CrearTarjeta extends JFrame {
+public class CrearTarea extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -25,7 +25,7 @@ public class CrearTarjeta extends JFrame {
 
 
 
-	public CrearTarjeta(Sesion ss) {
+	public CrearTarea(Sesion ss) {
 		this.sesion = ss;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -65,15 +65,15 @@ public class CrearTarjeta extends JFrame {
 		infLabel.setBounds(20, 193, 404, 23);
 		contentPane.add(infLabel);
 		
-		JButton btnAadirTarjeta = new JButton("Añadir Tarjeta");
-		btnAadirTarjeta.setBounds(20, 227, 114, 23);
-		contentPane.add(btnAadirTarjeta);
-		btnAadirTarjeta.addActionListener(new ActionListener(){
+		JButton btnAadirTarea = new JButton("Añadir Tarea");
+		btnAadirTarea.setBounds(20, 227, 114, 23);
+		contentPane.add(btnAadirTarea);
+		btnAadirTarea.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				if(textField.getText().length() > 0) {
-					if(TargetController.add(sesion,textField.getText(),textField_1.getText(),textArea.getText())) {
-						System.out.println("CrearTarjeta "+textArea.getText());
-						infLabel.setText("Tarjeta Creada");
+					if(TaskController.add(sesion,textField.getText(),textField_1.getText(),textArea.getText())) {
+						System.out.println("CrearTarea "+textArea.getText());
+						infLabel.setText("Tarea Creada");
 					}
 					else infLabel.setText("Fallo en el campo fecha. Pista: fecha fin >= fecha actual");
 				}else infLabel.setText("Es necesario que tenga título");
@@ -85,7 +85,7 @@ public class CrearTarjeta extends JFrame {
 		contentPane.add(btnCancelar);
 		btnCancelar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				ListController.callMostrarLista(sesion.lista(), sesion);
+				ListController.callMostrarLista(sesion,sesion.lista());
 				dispose();
 			}
 		});

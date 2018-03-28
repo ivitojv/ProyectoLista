@@ -11,7 +11,7 @@ import collection.JavaConversions._
 import vista._
 import java.util.Date
 
-object TargetController extends Controller{
+object TaskController extends Controller{
   private val regex = """[0-9][0-9][0-9][0-9]-[0-1]?[0-9]-[0-3]?[0-9]""".r
   private val format = new SimpleDateFormat("yyyy-MM-dd")
   val AZ = 0
@@ -22,11 +22,11 @@ object TargetController extends Controller{
   //cargarTarjetas(FILENAME)
   //def getTarjetas(ss:Sesion):List[Tarjeta]=for(elem<-tarjetas; if(elem.author.name == ss.person.name)) yield elem
   
-  def ordFiltT(tjs:List[Tarjeta], op:Int):List[Tarjeta]={
+  def ordFiltT(tjs:List[Tarea], op:Int):List[Tarea]={
     op match{
       case AZ => tjs.sortWith(_.title < _.title)
       case ZA => tjs.sortWith(_.title > _.title)
-      case DATE => tjs.filter(_.date!=null).sortWith((a:Tarjeta,b:Tarjeta) => a.date.before(b.date))
+      case DATE => tjs.filter(_.date!=null).sortWith((a:Tarea,b:Tarea) => a.date.before(b.date))
       case END => tjs.filter(_.finalizada)
     }
   }
@@ -43,16 +43,16 @@ object TargetController extends Controller{
   private def checkDate(date:String) = if(regex.findAllIn(date).length>0) if(format.parse(date).after(new Date())) true else false else false
   def add(ss:Sesion,title:String,fecha:String,comment:String)={
     if(checkDate(fecha)){    
-      ss.lista +=new Tarjeta(ss.person,title,format.parse(fecha),comment)
+      ss.lista +=new Tarea(ss.person,title,format.parse(fecha),comment)
       ListController.save
       true
     }else if(fecha == ""){
-      ss.lista += new Tarjeta(ss.person,title,comment)
+      ss.lista += new Tarea(ss.person,title,comment)
       ListController.save
       true
     }else false
   }
-  def mod(t:Tarjeta, title:String, date:String, comment:String, fin:Boolean)={
+  def mod(t:Tarea, title:String, date:String, comment:String, fin:Boolean)={
     if(checkDate(date)){
       t.title = title
       t.date = format.parse(date)
@@ -69,21 +69,24 @@ object TargetController extends Controller{
       true
     }else false
   }
-  def callDetalleTarjeta(t:Tarjeta,s:Sesion){
+  def callDetalleTarea(ss:Sesion,t:Tarea){
     try {
-      frame = new DetalleTarjeta(t,s)
+      frame = new DetalleTarea(t,ss)
       frame.setVisible(true)
     } catch {
       case e: Exception => e.printStackTrace()
     }
   }
-  def callCrearTarjeta(ss:Sesion){
+  def callCrearTarea(ss:Sesion){
     try {
-      frame = new CrearTarjeta(ss)
+      frame = new CrearTarea(ss)
       frame.setVisible(true)
     } catch {
       case e: Exception => e.printStackTrace()
     }
   }
-  def borrarTarjeta(t:Tarjeta) {}
+  def borrarTarea(ss:Sesion,t:Tarea) {
+    ss.lista -= t
+    ListController.save
+  }
 }
