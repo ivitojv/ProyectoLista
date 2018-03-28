@@ -19,9 +19,6 @@ object TaskController extends Controller{
   val DATE = 2
   val END = 3
  
-  //cargarTarjetas(FILENAME)
-  //def getTarjetas(ss:Sesion):List[Tarjeta]=for(elem<-tarjetas; if(elem.author.name == ss.person.name)) yield elem
-  
   def ordFiltT(tjs:List[Tarea], op:Int):List[Tarea]={
     op match{
       case AZ => tjs.sortWith(_.title < _.title)
@@ -30,16 +27,7 @@ object TaskController extends Controller{
       case END => tjs.filter(_.finalizada)
     }
   }
-  /*
-  private def cargarTarjetas(filename: String) {
-    try{
-      val in = new ObjectInputStream(new FileInputStream(filename))
-      listas = in.readObject().asInstanceOf[ArrayBuffer[ListaT]]
-    }catch {
-      case e: Exception => e.printStackTrace()
-      }
-  }
-  */
+
   private def checkDate(date:String) = if(regex.findAllIn(date).length>0) if(format.parse(date).after(new Date())) true else false else false
   def add(ss:Sesion,title:String,fecha:String,comment:String)={
     if(checkDate(fecha)){    
