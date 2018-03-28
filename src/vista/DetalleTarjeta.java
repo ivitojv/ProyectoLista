@@ -7,6 +7,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import controlador.TargetController;
+import controlador.ListController;
 import modelo.Tarjeta;
 import utilities.Sesion;
 
@@ -23,11 +24,13 @@ public class DetalleTarjeta extends JFrame {
 
 	private JPanel contentPane;
 	private JComboBox<Integer> date_d = new JComboBox<Integer>();
+	private Sesion sesion;
 
 	/**
 	 * Create the frame.
 	 */
-	public DetalleTarjeta(Tarjeta tarjeta, Sesion sesion) {
+	public DetalleTarjeta(Tarjeta tarjeta, Sesion ss) {
+		this.sesion = ss;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -174,6 +177,7 @@ public class DetalleTarjeta extends JFrame {
 			date_m.setSelectedIndex(tarjeta.date().getMonth());
 			date_d.setSelectedIndex(tarjeta.date().getDate()-1);
 		}
+		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setBounds(61, 227, 89, 23);
 		contentPane.add(btnGuardar);
@@ -204,6 +208,7 @@ public class DetalleTarjeta extends JFrame {
 
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ListController.callMostrarLista(sesion.lista(), sesion);
 				dispose();
 			}
 		});

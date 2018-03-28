@@ -67,7 +67,7 @@ public class Menu {
 		JButton btnNewButton = new JButton("Entrar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(PersonController.login(textField.getText()));
+				if(PersonController.login(textField.getText()));		
 				else infLabel.setText("Esa persona no está en el sistema");
 			}
 		});

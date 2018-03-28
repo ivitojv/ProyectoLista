@@ -26,7 +26,7 @@ import javax.swing.UIManager;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 
-public class MostrarTarjeta extends JFrame {
+public class MostrarLista extends JFrame {
 
 	private JPanel contentPane;
 	private final JScrollPane scrollPane = new JScrollPane();
@@ -39,7 +39,7 @@ public class MostrarTarjeta extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MostrarTarjeta(List<Tarjeta> targets,Sesion ss) {
+	public MostrarLista(List<Tarjeta> targets,Sesion ss) {
 		this.sesion = ss;
 		this.tarjetas = targets;
 		this.tShowed = targets;
@@ -129,9 +129,10 @@ public class MostrarTarjeta extends JFrame {
 		btnDetalle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//System.out.println(group.getSelection());
-				if(group.getSelection()!=null)
+				if(group.getSelection()!=null) {
 					TargetController.callDetalleTarjeta(selectedTarget,sesion);
-				else
+					dispose();
+				}else
 					infLabel.setText("Debes escoger una tarjeta");
 					
 			}
@@ -140,8 +141,6 @@ public class MostrarTarjeta extends JFrame {
 		JButton btnBorrar = new JButton("Borrar");
 		btnBorrar.setBounds(335, 227, 89, 23);
 		contentPane.add(btnBorrar);	
-		
-		
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(group.getSelection()!=null) {
@@ -157,6 +156,17 @@ public class MostrarTarjeta extends JFrame {
 					infLabel.setText("Debes escoger una tarjeta");
 			}
 		});
+		
+		JButton btnCrearTarjeta = new JButton("Crear tarjeta");
+		btnCrearTarjeta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TargetController.callCrearTarjeta(sesion);
+				dispose();
+			}
+		});
+		btnCrearTarjeta.setBounds(109, 227, 113, 23);
+		contentPane.add(btnCrearTarjeta);
+		
 	}
 	private void loadContainer(List<Tarjeta> content) {
 		contenedor = new JPanel();

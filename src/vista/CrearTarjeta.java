@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import controlador.TargetController;
+import controlador.ListController;
 import utilities.Sesion;
 
 public class CrearTarjeta extends JFrame {
@@ -70,7 +71,7 @@ public class CrearTarjeta extends JFrame {
 		btnAadirTarjeta.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				if(textField.getText().length() > 0) {
-					if(TargetController.add(sesion.person(),textField.getText(),textField_1.getText(),textArea.getText())) {
+					if(TargetController.add(sesion,textField.getText(),textField_1.getText(),textArea.getText())) {
 						System.out.println("CrearTarjeta "+textArea.getText());
 						infLabel.setText("Tarjeta Creada");
 					}
@@ -78,11 +79,13 @@ public class CrearTarjeta extends JFrame {
 				}else infLabel.setText("Es necesario que tenga título");
 			}
 		});
+		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(310, 227, 114, 23);
 		contentPane.add(btnCancelar);
 		btnCancelar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
+				ListController.callMostrarLista(sesion.lista(), sesion);
 				dispose();
 			}
 		});

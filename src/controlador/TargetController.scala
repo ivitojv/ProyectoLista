@@ -12,8 +12,6 @@ import vista._
 import java.util.Date
 
 object TargetController extends Controller{
-  var tarjetas = ArrayBuffer.empty[Tarjeta]
-  var author = ""
   private val regex = """[0-9][0-9][0-9][0-9]-[0-1]?[0-9]-[0-3]?[0-9]""".r
   private val format = new SimpleDateFormat("yyyy-MM-dd")
   val AZ = 0
@@ -22,7 +20,7 @@ object TargetController extends Controller{
   val END = 3
  
   //cargarTarjetas(FILENAME)
-  def getTarjetas(ss:Sesion):List[Tarjeta]=for(elem<-tarjetas; if(elem.author.name == ss.person.name)) yield elem
+  //def getTarjetas(ss:Sesion):List[Tarjeta]=for(elem<-tarjetas; if(elem.author.name == ss.person.name)) yield elem
   
   def ordFiltT(tjs:List[Tarjeta], op:Int):List[Tarjeta]={
     op match{
@@ -43,14 +41,14 @@ object TargetController extends Controller{
   }
   */
   private def checkDate(date:String) = if(regex.findAllIn(date).length>0) if(format.parse(date).after(new Date())) true else false else false
-  def add(author:Person,title:String,fecha:String,comment:String)={
-    if(checkDate(fecha)){
-      tarjetas += new Tarjeta(author,title,format.parse(fecha),comment)
-      //saveOnFile(tarjetas,FILENAME)
+  def add(ss:Sesion,title:String,fecha:String,comment:String)={
+    if(checkDate(fecha)){    
+      ss.lista +=new Tarjeta(ss.person,title,format.parse(fecha),comment)
+      ListController.save
       true
     }else if(fecha == ""){
-      tarjetas += new Tarjeta(author,title,comment)
-      //saveOnFile(tarjetas,FILENAME)
+      ss.lista += new Tarjeta(ss.person,title,comment)
+      ListController.save
       true
     }else false
   }
@@ -60,14 +58,14 @@ object TargetController extends Controller{
       t.date = format.parse(date)
       t.comment = comment
       t.finalizada = fin
-      //saveOnFile(tarjetas,FILENAME)
+      ListController.save
       true
      }else if(date == ""){
       t.title = title
       t.date = null
       t.comment = comment
       t.finalizada = fin
-      //saveOnFile(tarjetas,FILENAME)
+      ListController.save
       true
     }else false
   }
@@ -79,13 +77,13 @@ object TargetController extends Controller{
       case e: Exception => e.printStackTrace()
     }
   }
-  def callMostrarTarjeta(list:ListaT,ss:Sesion){
+  def callCrearTarjeta(ss:Sesion){
     try {
-      frame = new MostrarTarjeta(list.lista,ss)
+      frame = new CrearTarjeta(ss)
       frame.setVisible(true)
     } catch {
       case e: Exception => e.printStackTrace()
     }
   }
-  def borrarTarjeta(t:Tarjeta) {tarjetas-=t;}//saveOnFile(tarjetas,FILENAME)}
+  def borrarTarjeta(t:Tarjeta) {}
 }

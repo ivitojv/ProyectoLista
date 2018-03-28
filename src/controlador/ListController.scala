@@ -32,7 +32,12 @@ object ListController extends Controller{
       case e: Exception => e.printStackTrace()
       }
   }
-  def getListas(ss:Sesion) = for(l<-listas; if(l.author == ss.person)) yield l
+  def lookForList(ss:Sesion, name:String) = {val ans = listas.filter((l:ListaT) => l.author.name == ss.person.name && l.name == name);  if(ans.length > 0) ans(0) else null}
+  def addLista(ss:Sesion, name:String){ listas += new ListaT(name, ss.person); saveOnFile(listas,FILENAME)}
+  def getListas(ss:Sesion) = for(l<-listas; if(l.author.name == ss.person.name)) yield l
+  def addTarjeta(ss:Sesion,t:Tarjeta){}
+  def modTarjeta(ss:Sesion,t:Tarjeta){}
+  def borrarTarjeta(ss:Sesion,t:Tarjeta){}
   def callMenu(ss: Sesion) {
     try {
       frame = new MenuPersona(ss,getListas(ss));
@@ -41,8 +46,26 @@ object ListController extends Controller{
       case e: Exception => e.printStackTrace();
     }
   }
+  def callCrearLista(ss:Sesion){
+    try {
+      frame = new CrearLista(ss);
+      frame.setVisible(true);
+    } catch {
+      case e: Exception => e.printStackTrace();
+    }
+  }
+  def callMostrarLista(list:ListaT,ss:Sesion){
+    try {
+      ss.lista = list;
+      frame = new MostrarLista(list.lista,ss)
+      frame.setVisible(true)
+    } catch {
+      case e: Exception => e.printStackTrace()
+    }
+  }
   def borrarLista(list:ListaT) {
     listas-=list
     saveOnFile(listas,FILENAME)
     }
+  def save { saveOnFile(listas,FILENAME)}
 }

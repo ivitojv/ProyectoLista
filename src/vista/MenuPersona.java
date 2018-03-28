@@ -42,42 +42,6 @@ public class MenuPersona extends JFrame {
 	 */
 	public MenuPersona(Sesion ss, List<ListaT> lists) {
 		this.sesion = ss;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		
-		/*JButton btnMostrarTarjetas = new JButton("Mostrar Tarjetas");
-		btnMostrarTarjetas.setBounds(173, 227, 114, 23);
-		contentPane.add(btnMostrarTarjetas);
-		btnMostrarTarjetas.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				TargetController.callMostrarTarjeta(sesion);
-			}
-		});*/
-		/*
-		JButton btnMostrarLista = new JButton("Mostrar Lista");
-		btnMostrarLista.setBounds(173, 227, 114, 23);
-		contentPane.add(btnMostrarLista);
-		btnMostrarLista.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				TargetController.callMostrarTarjeta(sesion);
-			}
-		});
-		
-		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(310, 227, 114, 23);
-		contentPane.add(btnCancelar);
-		btnCancelar.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-		*/
 		this.listas = lists;
 		this.lShowed = lists;
 		
@@ -145,19 +109,19 @@ public class MenuPersona extends JFrame {
 				dispose();
 			}
 		});
-		btnAtrs.setBounds(10, 227, 89, 23);
+		btnAtrs.setBounds(0, 227, 89, 23);
 		contentPane.add(btnAtrs);
 		
-		JButton btnDetalle = new JButton("Mostrar");
-		btnDetalle.setBounds(232, 227, 89, 23);
-		contentPane.add(btnDetalle);
-		btnDetalle.addActionListener(new ActionListener() {
+		JButton btnMostrar = new JButton("Mostrar");
+		btnMostrar.setBounds(232, 227, 89, 23);
+		contentPane.add(btnMostrar);
+		btnMostrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//System.out.println(group.getSelection());
 				if(group.getSelection()!=null)
-					TargetController.callMostrarTarjeta(selectedList,sesion);
+					ListController.callMostrarLista(selectedList,sesion);
 				else
-					infLabel.setText("Debes escoger una tarjeta");
+					infLabel.setText("Debes escoger una lista");
 					
 			}
 		});
@@ -165,6 +129,16 @@ public class MenuPersona extends JFrame {
 		JButton btnBorrar = new JButton("Borrar");
 		btnBorrar.setBounds(335, 227, 89, 23);
 		contentPane.add(btnBorrar);	
+		
+		JButton btnCrearLista = new JButton("Crear lista");
+		btnCrearLista.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ListController.callCrearLista(sesion);
+				dispose();
+			}
+		});
+		btnCrearLista.setBounds(98, 227, 124, 23);
+		contentPane.add(btnCrearLista);
 		
 		
 		btnBorrar.addActionListener(new ActionListener() {
@@ -179,7 +153,7 @@ public class MenuPersona extends JFrame {
 					contenedor.updateUI();					
 				}
 				else
-					infLabel.setText("Debes escoger una tarjeta");
+					infLabel.setText("Debes escoger una lista");
 			}
 		});
 	}
@@ -214,8 +188,5 @@ public class MenuPersona extends JFrame {
 		
 		scrollPane.setViewportView(contenedor);
 	}
-		
-		
-		
 }
 
