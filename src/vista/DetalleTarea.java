@@ -132,8 +132,8 @@ public class DetalleTarea extends JFrame {
 		lblYearMonthDay.setBounds(212, 49, 202, 14);
 		panel.add(lblYearMonthDay);
 		
-		JLabel lblAsignadaA = new JLabel("Asignada a:");
-		lblAsignadaA.setBounds(0, 168, 70, 14);
+		JLabel lblAsignadaA = new JLabel("Creada por:");
+		lblAsignadaA.setBounds(0, 166, 75, 14);
 		panel.add(lblAsignadaA);
 		
 		JLabel authorLabel = new JLabel(tarea.author().name());

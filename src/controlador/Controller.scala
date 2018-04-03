@@ -13,7 +13,7 @@ abstract class Controller {
     out.close
   }
   def sendMail(ss:Sesion){
-    
+    new Mail(ss.person.correo,ss.person.correo,"localhost").sendMessage("prueba")
   }
   
 }

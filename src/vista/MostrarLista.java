@@ -52,17 +52,17 @@ public class MostrarLista extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblTusTareas = new JLabel("Tus Tareas:");
-		lblTusTareas.setBounds(10, 11, 76, 14);
-		contentPane.add(lblTusTareas);
+		JLabel lblListName = new JLabel(sesion.lista().name()+" creada por "+sesion.person().name());
+		lblListName.setBounds(10, 11, 285, 14);
+		contentPane.add(lblListName);
 		scrollPane.setViewportBorder(UIManager.getBorder("ScrollPane.border"));
 		
 		JLabel infLabel = new JLabel("");
 		infLabel.setForeground(Color.red);
-		infLabel.setBounds(98, 11, 184, 14);
+		infLabel.setBounds(10, 202, 414, 14);
 		contentPane.add(infLabel);
 
-		scrollPane.setBounds(0, 36, 434, 182);
+		scrollPane.setBounds(0, 36, 434, 160);
 		contentPane.add(scrollPane);
 
 		System.out.println("vista.MostrarTarea " + tareas.size());
