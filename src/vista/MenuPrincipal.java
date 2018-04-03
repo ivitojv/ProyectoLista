@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Menu {
+public class MenuPrincipal {
 
 	private JFrame frame;
 	private JTextField textField;
@@ -24,7 +24,7 @@ public class Menu {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Menu window = new Menu();
+					MenuPrincipal window = new MenuPrincipal();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,7 +36,7 @@ public class Menu {
 	/**
 	 * Create the application.
 	 */
-	public Menu() {
+	public MenuPrincipal() {
 		initialize();
 	}
 
