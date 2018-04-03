@@ -86,6 +86,9 @@ public class MostrarLista extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				switch((String)filters.getSelectedItem()) {
 				case "Ordenación":
+					tShowed = tareas;
+					loadContainer(tShowed);
+					group.clearSelection();
 					break;
 				case "Ord. A-Z":
 					tShowed = TaskController.ordFiltT(tareas, TaskController.AZ());

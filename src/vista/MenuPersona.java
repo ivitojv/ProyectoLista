@@ -76,6 +76,7 @@ public class MenuPersona extends JFrame {
 		filters.addItem("Ordenación");
 		filters.addItem("Ord. A-Z");
 		filters.addItem("Ord. Z-A");
+		filters.addItem("Compartidas");
 		
 		filters.setSelectedIndex(0);
 		
@@ -85,6 +86,9 @@ public class MenuPersona extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				switch((String)filters.getSelectedItem()) {
 				case "Ordenación":
+					lShowed = listas;
+					loadContainer(lShowed);
+					group.clearSelection();
 					break;
 				case "Ord. A-Z":
 					lShowed = ListController.ordFiltL(listas, ListController.AZ());
@@ -93,6 +97,11 @@ public class MenuPersona extends JFrame {
 					break;
 				case "Ord. Z-A":
 					lShowed = ListController.ordFiltL(listas, ListController.ZA());
+					loadContainer(lShowed);
+					group.clearSelection();
+					break;
+				case "Compartidas":
+					lShowed = ListController.ordFiltL(listas, ListController.SHARED());
 					loadContainer(lShowed);
 					group.clearSelection();
 					break;

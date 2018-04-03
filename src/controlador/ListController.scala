@@ -13,6 +13,7 @@ object ListController extends Controller{
   
   val AZ = 0
   val ZA = 1
+  val SHARED = 2
   private val FILENAME = "listas.obj"
   
   var listas = ArrayBuffer.empty[ListaT]
@@ -22,6 +23,7 @@ object ListController extends Controller{
     op match{
       case AZ => lts.sortWith(_.name < _.name)
       case ZA => lts.sortWith(_.name > _.name)
+      case SHARED => lts.filter(_.shared.length > 0)
     }
   }
   private def cargarListas(filename: String) {
