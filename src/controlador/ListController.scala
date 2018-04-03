@@ -36,7 +36,7 @@ object ListController extends Controller{
   def addLista(ss:Sesion, name:String){ listas += new ListaT(name, ss.person); save}
   def getListas(ss:Sesion) = for(l<-listas; if(l.author.name == ss.person.name || l.shared.map(_.name).contains(ss.person.name))) yield l
   def shareList(ss:Sesion, ppl:List[Person]){
-    ss.lista.share(ppl.to[ArrayBuffer])
+    ss.lista.shared = ppl.to[ArrayBuffer]
     save
     sendMail(ss)
   }

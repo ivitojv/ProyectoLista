@@ -12,7 +12,6 @@ class ListaT(var name:String, var author:Person) extends Serializable{
   def -=(t:Tarea) {lista-=t}
   def apply(index:Int) = lista(index)
   def size = lista.length
-  def share(p:ArrayBuffer[Person]){shared = p}
   def isSharedTo(p:Person)= shared.map(_.name).contains(p.name)
   /*
   def sortWith(func:(Tarea,Tarea) => Boolean):ListaT = new ListaT(name,author,lista.sortWith(func))

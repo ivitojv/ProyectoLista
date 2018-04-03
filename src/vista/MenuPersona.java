@@ -180,6 +180,7 @@ public class MenuPersona extends JFrame {
 		btnContactos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				PersonController.callContactos(sesion);
+				dispose();
 			}
 		});
 		btnContactos.setBounds(303, 172, 118, 23);
