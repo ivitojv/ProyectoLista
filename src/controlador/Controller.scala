@@ -2,6 +2,7 @@ package controlador
 
 import javax.swing.JFrame;
 import java.io._
+import utilities._
 abstract class Controller {
 
   var frame:JFrame = null
@@ -10,6 +11,9 @@ abstract class Controller {
     val out = new ObjectOutputStream(new FileOutputStream(filename))
     out.writeObject(objeto)
     out.close
+  }
+  def sendMail(ss:Sesion){
+    
   }
   
 }

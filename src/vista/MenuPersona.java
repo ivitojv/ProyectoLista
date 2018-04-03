@@ -23,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import controlador.ListController;
+import controlador.PersonController;
 import controlador.TaskController;
 import modelo.*;
 import utilities.Sesion;
@@ -127,9 +128,6 @@ public class MenuPersona extends JFrame {
 			}
 		});
 		
-		JButton btnBorrar = new JButton("Borrar");
-		btnBorrar.setBounds(300, 104, 121, 23);
-		contentPane.add(btnBorrar);	
 		
 		JButton btnCrearLista = new JButton("Crear lista");
 		btnCrearLista.addActionListener(new ActionListener() {
@@ -145,8 +143,10 @@ public class MenuPersona extends JFrame {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(group.getSelection()!=null) {
-					ListController.callModificarLista(sesion,selectedList);
-					dispose();
+					if(ListController.callModificarLista(sesion,selectedList))
+						dispose();
+					else
+						infLabel.setText("Debes ser el autor de la lista");	
 				}
 				else
 					infLabel.setText("Debes escoger una lista");
@@ -156,17 +156,46 @@ public class MenuPersona extends JFrame {
 		btnModificar.setBounds(303, 70, 118, 23);
 		contentPane.add(btnModificar);
 		
+		JButton btnCompartir = new JButton("Compartir");
+		btnCompartir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(group.getSelection()!=null) {
+					if(ListController.callCompartirLista(sesion,selectedList)) {
+						dispose();
+					}else
+						infLabel.setText("Debes ser el autor de la lista");				
+				}
+				else
+					infLabel.setText("Debes escoger una lista");
+			}
+		});
+		btnCompartir.setBounds(303, 104, 118, 23);
+		contentPane.add(btnCompartir);
 		
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.setBounds(303, 138, 118, 23);
+		contentPane.add(btnBorrar);	
+		
+		JButton btnContactos = new JButton("Contactos");
+		btnContactos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				PersonController.callContactos(sesion);
+			}
+		});
+		btnContactos.setBounds(303, 172, 118, 23);
+		contentPane.add(btnContactos);
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(group.getSelection()!=null) {
-					ListController.borrarLista(selectedList);
-					contenedor.remove(lShowed.indexOf(selectedList));
-					//System.out.println("MostrarTarea Borrar-> "+tShowed.size());
-					listas.remove(listas.indexOf(selectedList));
-					//System.out.println("MostrarTarea Borrar-> "+tShowed.size());
-					group.clearSelection();
-					contenedor.updateUI();					
+					if(ListController.borrarLista(sesion,selectedList)) {
+						contenedor.remove(lShowed.indexOf(selectedList));
+						//System.out.println("MostrarTarea Borrar-> "+tShowed.size());
+						listas.remove(listas.indexOf(selectedList));
+						//System.out.println("MostrarTarea Borrar-> "+tShowed.size());
+						group.clearSelection();
+						contenedor.updateUI();		
+					}else
+						infLabel.setText("Debes ser el autor de la lista");	
 				}
 				else
 					infLabel.setText("Debes escoger una lista");
