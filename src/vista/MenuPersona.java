@@ -244,4 +244,3 @@ public class MenuPersona extends JFrame {
 		scrollPane.setViewportView(contenedor);
 	}
 }
-

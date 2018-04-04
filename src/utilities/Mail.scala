@@ -1,6 +1,5 @@
 package utilities
 import java.util.Properties;
-
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -19,10 +18,10 @@ class Mail(val to:String,val from:String,val host:String) {
            val message:MimeMessage = new MimeMessage(session);
   
            // Set From: header field of the header.
-           message.setFrom(new InternetAddress(from));
+           message.setFrom(new InternetAddress("javier.ibanez.soloaga.st@everis.com"));
   
            // Set To: header field of the header.
-           message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+           message.addRecipient(Message.RecipientType.TO, new InternetAddress("javier.ibanez.soloaga.st@everis.com"));
   
            // Set Subject: header field
            message.setSubject("This is the Subject Line!");
