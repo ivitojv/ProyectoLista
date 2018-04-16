@@ -13,8 +13,10 @@ abstract class Controller {
     out.close
   }
   def sendMail(ss:Sesion){
-    new Mail(ss.person.correo,ss.person.correo,"localhost").sendMessage("prueba")
-    //println("Pending of implementation")
+    val me = "javier.ibanez.soloaga.st@everis.com"
+    val a = new MailAgent(me,null,null,me,"prueba","content","127.0.0.1")
+    //a.sendMessage
+    println("Pending of implementation")
   }
   
 }

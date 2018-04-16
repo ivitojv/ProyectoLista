@@ -32,9 +32,15 @@ object PersonController extends Controller {
     }else
       false
   }
-  def deleteContact(ss:Sesion,ppl:List[Person]){
-    ss.person.contactos = ss.person.contactos.filter((p:Person)=>if(ppl.map(_.name).contains(p.name))false else true)
-    saveOnFile(personas,FILENAME)
+  def deleteContact(ss:Sesion,ppl:List[Person])={
+    if(ListController.getListas(ss).filter(_.shared.filter((p:Person)=>ppl.map(_.name).contains(p.name)).size > 0).size > 0){
+      callContactsWarning()
+      false
+    }else{
+      ss.person.contactos = ss.person.contactos.filter((p:Person)=>if(ppl.map(_.name).contains(p.name))false else true)
+      saveOnFile(personas,FILENAME)
+      true
+    }
   }
   def callCrearPersona {
     try {
@@ -54,9 +60,18 @@ object PersonController extends Controller {
     }
   }
   
+  def callContactsWarning(){
+    try {
+      frame = new ContactsWarning();
+      frame.setVisible(true);
+    } catch {
+      case e: Exception => e.printStackTrace();
+    }
+  }
+  
   def add(name:String, correo:String) = {
     println("PersonController add")
-    if(regex.findAllIn(correo).length > 0){
+    if(regex.findAllIn(correo).length == 1){
       personas += new Person(name,correo)
       saveOnFile(personas,FILENAME)
       true

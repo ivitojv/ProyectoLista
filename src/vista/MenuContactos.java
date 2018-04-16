@@ -73,9 +73,11 @@ public class MenuContactos extends JFrame {
 						inf += chckbx.getText() + " ";
 					}
 				}
-				PersonController.deleteContact(sesion,ppl);
-				loadContainer();
-				infLabel.setText("Contactos borrados: "+inf);
+				if(PersonController.deleteContact(sesion,ppl)) {
+					loadContainer();
+					infLabel.setText("Contactos borrados: "+inf);
+				}else
+					infLabel.setText("");
 			}
 		});
 		
