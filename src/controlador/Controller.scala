@@ -13,16 +13,12 @@ abstract class Controller {
     out.writeObject(objeto)
     out.close
   }
-  def sendMailShare(ss:Sesion, list:List[Person], addition:Boolean){
+  def sendMail(ss:Sesion, list:List[Person], asunto:String, message:String){
     val me = "javier.ibanez.soloaga.st@everis.com"
     val a = new MailAgent(me,null,null,me,"prueba","content","127.0.0.1")
     //a.sendMessage
-    /*
-    if(addition)
-      for(elem<-list) new MailAgent(elem.correo,null,null,ss.person.correo,"Aviso: " +ss.lista.name,ss.person.name + " te ha compartido la lista " + ss.lista.name,"127.0.0.1").sendMessage
-    else
-      for(elem<-list) new MailAgent(elem.correo,null,null,ss.person.correo,"Aviso: " +ss.lista.name,ss.person.name + " te ha descompartido la lista " + ss.lista.name,"127.0.0.1").sendMessage
-    */      
+
+    for(elem<-list) new MailAgent(elem.correo,null,null,ss.person.correo,asunto,message,"127.0.0.1").sendMessage    
     println("Enviar mensaje a "+list.map(_.name))
   }
   

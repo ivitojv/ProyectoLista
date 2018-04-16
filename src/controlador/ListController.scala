@@ -42,8 +42,8 @@ object ListController extends Controller{
     val deletions = ss.lista.shared.filter((p:Person) => !ppl.map(_.name).contains(p.name))
     ss.lista.shared = ppl.to[ArrayBuffer]
     save
-    sendMailShare(ss,additions.toList,true)
-    sendMailShare(ss,deletions.toList,false)
+    sendMail(ss,additions.toList,"Aviso: " +ss.lista.name,ss.person.name + " te ha compartido la lista " + ss.lista.name)
+    sendMail(ss,deletions.toList,"Aviso: " +ss.lista.name,ss.person.name + " te ha descompartido la lista " + ss.lista.name)
 
   }
   def mod(ss:Sesion,name:String)={

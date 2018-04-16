@@ -33,20 +33,23 @@ object TaskController extends Controller{
     if(checkDate(fecha)){    
       ss.lista +=new Tarea(ss.person,title,format.parse(fecha),comment)
       ListController.save
+      sendMail(ss,ss.lista.shared.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha añadido la tarea "+title+" a la lista " + ss.lista.name)
       true
     }else if(fecha == ""){
       ss.lista += new Tarea(ss.person,title,comment)
       ListController.save
+      sendMail(ss,ss.lista.shared.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha añadido la tarea "+title+" a la lista " + ss.lista.name)
       true
     }else false
   }
-  def mod(t:Tarea, title:String, date:String, comment:String, fin:Boolean)={
+  def mod(ss:Sesion,t:Tarea, title:String, date:String, comment:String, fin:Boolean)={
     if(checkDate(date)){
       t.title = title
       t.date = format.parse(date)
       t.comment = comment
       t.finalizada = fin
       ListController.save
+      sendMail(ss,ss.lista.shared.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha modificado la tarea "+t.title+" de la lista " + ss.lista.name)
       true
      }else if(date == ""){
       t.title = title
@@ -54,6 +57,7 @@ object TaskController extends Controller{
       t.comment = comment
       t.finalizada = fin
       ListController.save
+      sendMail(ss,ss.lista.shared.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha modificado la tarea "+t.title+" de la lista " + ss.lista.name)
       true
     }else false
   }
@@ -76,5 +80,6 @@ object TaskController extends Controller{
   def borrarTarea(ss:Sesion,t:Tarea) {
     ss.lista -= t
     ListController.save
+    sendMail(ss,ss.lista.shared.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha borrado la tarea "+t.title+" de la lista " + ss.lista.name)
   }
 }

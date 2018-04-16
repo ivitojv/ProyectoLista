@@ -201,11 +201,11 @@ public class DetalleTarea extends JFrame {
 					if(chckbxActivar.isSelected()) {
 						String date = date_y.getSelectedItem()+"-"+date_m.getSelectedItem()+"-"+ date_d.getSelectedItem();
 						System.out.println("DetalleTarea "+date);
-						if(TaskController.mod(tarea,title.getText(),date,description.getText(),chckbxFinalizada.isSelected())) {
+						if(TaskController.mod(sesion,tarea,title.getText(),date,description.getText(),chckbxFinalizada.isSelected())) {
 							infLabel.setText("Tarea Guardada");
 						}else infLabel.setText("ERROR: fecha fin >= fecha actual");
 					}else {
-						if(TaskController.mod(tarea,title.getText(),"",description.getText(),chckbxFinalizada.isSelected())) {
+						if(TaskController.mod(sesion,tarea,title.getText(),"",description.getText(),chckbxFinalizada.isSelected())) {
 							System.out.println("DetalleTarea "+description.getText());
 							infLabel.setText("Tarea Guardada");
 						}

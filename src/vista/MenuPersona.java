@@ -217,8 +217,6 @@ public class MenuPersona extends JFrame {
 		contenedor.setLayout(new BoxLayout(contenedor, BoxLayout.PAGE_AXIS));
 		for (ListaT lts : content) {
 			JPanel panel = new JPanel();
-			
-			//panel.setBounds(10, 79, 414, 83);
 			panel.setLayout(new GridLayout(1,1));
 			
 			JRadioButton rdbt = new JRadioButton(lts.name());
