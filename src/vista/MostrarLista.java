@@ -52,7 +52,7 @@ public class MostrarLista extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblListName = new JLabel(sesion.lista().name()+" creada por "+sesion.person().name());
+		JLabel lblListName = new JLabel(sesion.lista().name()+" creada por "+sesion.lista().author().name());
 		lblListName.setBounds(10, 11, 285, 14);
 		contentPane.add(lblListName);
 		scrollPane.setViewportBorder(UIManager.getBorder("ScrollPane.border"));

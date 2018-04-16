@@ -30,26 +30,28 @@ object TaskController extends Controller{
 
   private def checkDate(date:String) = if(regex.findAllIn(date).length>0) if(format.parse(date).after(new Date())) true else false else false
   def add(ss:Sesion,title:String,fecha:String,comment:String)={
-    if(checkDate(fecha)){    
+    val dest = ss.lista.shared.+:(ss.lista.author).filter((p:Person) => p.name != ss.person.name)
+    if(checkDate(fecha)){ 
       ss.lista +=new Tarea(ss.person,title,format.parse(fecha),comment)
       ListController.save
-      sendMail(ss,ss.lista.shared.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha añadido la tarea "+title+" a la lista " + ss.lista.name)
+      sendMail(ss,dest.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha añadido la tarea "+title+" a la lista " + ss.lista.name)
       true
     }else if(fecha == ""){
       ss.lista += new Tarea(ss.person,title,comment)
       ListController.save
-      sendMail(ss,ss.lista.shared.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha añadido la tarea "+title+" a la lista " + ss.lista.name)
+      sendMail(ss,dest.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha añadido la tarea "+title+" a la lista " + ss.lista.name)
       true
     }else false
   }
   def mod(ss:Sesion,t:Tarea, title:String, date:String, comment:String, fin:Boolean)={
+    val dest = ss.lista.shared.+:(ss.lista.author).filter((p:Person) => p.name != ss.person.name)
     if(checkDate(date)){
       t.title = title
       t.date = format.parse(date)
       t.comment = comment
       t.finalizada = fin
       ListController.save
-      sendMail(ss,ss.lista.shared.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha modificado la tarea "+t.title+" de la lista " + ss.lista.name)
+      sendMail(ss,dest.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha modificado la tarea "+t.title+" de la lista " + ss.lista.name)
       true
      }else if(date == ""){
       t.title = title
@@ -57,7 +59,7 @@ object TaskController extends Controller{
       t.comment = comment
       t.finalizada = fin
       ListController.save
-      sendMail(ss,ss.lista.shared.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha modificado la tarea "+t.title+" de la lista " + ss.lista.name)
+      sendMail(ss,dest.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha modificado la tarea "+t.title+" de la lista " + ss.lista.name)
       true
     }else false
   }
@@ -78,8 +80,9 @@ object TaskController extends Controller{
     }
   }
   def borrarTarea(ss:Sesion,t:Tarea) {
+    val dest = ss.lista.shared.+:(ss.lista.author).filter((p:Person) => p.name != ss.person.name)
     ss.lista -= t
     ListController.save
-    sendMail(ss,ss.lista.shared.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha borrado la tarea "+t.title+" de la lista " + ss.lista.name)
+    sendMail(ss,dest.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha borrado la tarea "+t.title+" de la lista " + ss.lista.name)
   }
 }
