@@ -212,7 +212,7 @@ public class MenuPersona extends JFrame {
 			}
 		});
 	}
-	public void loadContainer(List<ListaT> content) {
+	private void loadContainer(List<ListaT> content) {
 		contenedor = new JPanel();
 		contenedor.setLayout(new BoxLayout(contenedor, BoxLayout.PAGE_AXIS));
 		for (ListaT lts : content) {

@@ -36,7 +36,7 @@ object ListController extends Controller{
   }
   def lookForList(ss:Sesion, name:String) = {val ans = listas.filter((l:ListaT) => l.author.name == ss.person.name && l.name == name);  if(ans.length > 0) ans(0) else null}
   def addLista(ss:Sesion, name:String){ listas += new ListaT(name, ss.person); save}
-  def getListas(ss:Sesion) = (for(l<-listas; if(l.author.name == ss.person.name || l.shared.map(_.name).contains(ss.person.name))) yield l).toList
+  def getListas(ss:Sesion) = for(l<-listas; if(l.author.name == ss.person.name || l.shared.map(_.name).contains(ss.person.name))) yield l
   def shareList(ss:Sesion, ppl:List[Person]){
     val additions = ppl.filter((p:Person) => !ss.lista.shared.map(_.name).contains(p.name))
     val deletions = ss.lista.shared.filter((p:Person) => !ppl.map(_.name).contains(p.name))
@@ -56,7 +56,7 @@ object ListController extends Controller{
   }
   def borrarLista(ss:Sesion,list:ListaT)={
     if(ss.person.name == list.author.name){
-      listas -= ss.lista
+      listas -= list
       save
       true
     }else
