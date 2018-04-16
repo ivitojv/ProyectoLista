@@ -21,7 +21,7 @@ class MailAgent(
   smtpHost: String) {
   
   val fr = "ivitojv@gmail.com"
-  val password = "petitjaleo"
+  val password = "XXX"
 
   val props: Properties = new Properties()
   props.put("mail.smtp.auth", "true")
