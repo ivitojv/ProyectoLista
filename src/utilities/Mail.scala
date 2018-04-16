@@ -1,4 +1,58 @@
 package utilities
+
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.Address
+
+class MailAgent(
+  to:       String,
+  cc:       String,
+  bcc:      String,
+  from:     String,
+  subject:  String,
+  content:  String,
+  smtpHost: String) {
+  
+  val fr = "ivitojv@gmail.com"
+  val password = "petitjaleo"
+
+  val props: Properties = new Properties()
+  props.put("mail.smtp.auth", "true")
+  props.put("mail.smtp.starttls.enable", "true")
+  props.put("mail.smtp.host", "smtp.gmail.com")
+  props.put("mail.smtp.port", "587")
+
+  val session: Session = Session.getInstance(
+    props,
+    new javax.mail.Authenticator() {
+      override def getPasswordAuthentication():PasswordAuthentication={
+        new PasswordAuthentication(fr, password) }})
+
+  def sendMessage() {
+    try {
+
+      val message: Message = new MimeMessage(session)
+      message.setFrom(new InternetAddress(fr))
+      message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to).asInstanceOf[Array[Address]])
+      message.setSubject(subject)
+      message.setText(content)
+
+      Transport.send(message)
+
+    } catch {
+      case e: MessagingException => throw new RuntimeException(e)
+    }
+  }
+
+}
+/*
 import javax.mail._
 import javax.mail.internet._
 import java.util.Date
@@ -102,4 +156,5 @@ class Mail(val to:String,val from:String,val host:String) {
         }
     }
 }
+*/
 */

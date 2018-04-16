@@ -18,7 +18,7 @@ abstract class Controller {
     val a = new MailAgent(me,null,null,me,"prueba","content","127.0.0.1")
     //a.sendMessage
 
-    for(elem<-list) new MailAgent(elem.correo,null,null,ss.person.correo,asunto,message,"127.0.0.1").sendMessage    
+    //for(elem<-list) new MailAgent(elem.correo,null,null,ss.person.correo,asunto,message,"127.0.0.1").sendMessage    
     println("Enviar mensaje a "+list.map(_.name))
   }
   
