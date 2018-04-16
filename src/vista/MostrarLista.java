@@ -65,7 +65,7 @@ public class MostrarLista extends JFrame {
 		scrollPane.setBounds(0, 36, 434, 160);
 		contentPane.add(scrollPane);
 
-		System.out.println("vista.MostrarTarea " + tareas.size());
+		System.out.println("vista.MostrarLista tareas.size = " + tareas.size());
 		
 		loadContainer(tShowed);
 		
@@ -111,7 +111,7 @@ public class MostrarLista extends JFrame {
 					group.clearSelection();
 					break;
 				default:
-					System.out.println("ERROR: MostrarTarea-> filtes.actionListener "+ filters.getSelectedItem());
+					System.out.println("ERROR: MostrarLista-> filtes.actionListener "+ filters.getSelectedItem());
 				}
 				
 			}
@@ -150,9 +150,9 @@ public class MostrarLista extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(group.getSelection()!=null) {
 					contenedor.remove(tShowed.indexOf(selectedTask));
-					//System.out.println("MostrarTarea Borrar-> "+tShowed.size());
+					//System.out.println("MostrarLista Borrar-> "+tShowed.size());
 					tareas.remove(tareas.indexOf(selectedTask));
-					//System.out.println("MostrarTarea Borrar-> "+tShowed.size());
+					//System.out.println("MostrarLista Borrar-> "+tShowed.size());
 					TaskController.borrarTarea(sesion,selectedTask);
 					group.clearSelection();
 					contenedor.updateUI();					
@@ -189,7 +189,7 @@ public class MostrarLista extends JFrame {
 				@Override
 				public void focusGained(FocusEvent arg0) {
 					selectedTask = tarea;
-					System.out.println(tarea.title());
+					System.out.println("MostrarLista tarea: "+ tarea.title());
 				}
 
 				@Override

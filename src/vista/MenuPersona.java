@@ -106,7 +106,7 @@ public class MenuPersona extends JFrame {
 					group.clearSelection();
 					break;
 				default:
-					System.out.println("ERROR: MostrarTarea-> filtes.actionListener "+ filters.getSelectedItem());
+					System.out.println("ERROR: MenuPersona-> filtes.actionListener "+ filters.getSelectedItem());
 				}
 				
 			}
@@ -226,7 +226,7 @@ public class MenuPersona extends JFrame {
 				@Override
 				public void focusGained(FocusEvent arg0) {
 					selectedList = lts;
-					System.out.println(lts.name());
+					System.out.println("MenuPersona lista.name "+lts.name());
 				}
 
 				@Override
