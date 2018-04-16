@@ -179,11 +179,7 @@ public class MenuPersona extends JFrame {
 			}
 		});
 		btnCompartir.setBounds(303, 104, 118, 23);
-		contentPane.add(btnCompartir);
-		
-		JButton btnBorrar = new JButton("Borrar");
-		btnBorrar.setBounds(303, 138, 118, 23);
-		contentPane.add(btnBorrar);	
+		contentPane.add(btnCompartir);	
 		
 		JButton btnContactos = new JButton("Contactos");
 		btnContactos.addActionListener(new ActionListener() {
@@ -192,8 +188,12 @@ public class MenuPersona extends JFrame {
 				dispose();
 			}
 		});
-		btnContactos.setBounds(303, 172, 118, 23);
+		btnContactos.setBounds(156, 227, 118, 23);
 		contentPane.add(btnContactos);
+		
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.setBounds(303, 159, 118, 23);
+		contentPane.add(btnBorrar);
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(group.getSelection()!=null) {
@@ -212,7 +212,7 @@ public class MenuPersona extends JFrame {
 			}
 		});
 	}
-	private void loadContainer(List<ListaT> content) {
+	public void loadContainer(List<ListaT> content) {
 		contenedor = new JPanel();
 		contenedor.setLayout(new BoxLayout(contenedor, BoxLayout.PAGE_AXIS));
 		for (ListaT lts : content) {
