@@ -19,7 +19,7 @@ abstract class Controller {
     //a.sendMessage
 
     //for(elem<-list) new MailAgent(elem.correo,null,null,ss.person.correo,asunto,message,"127.0.0.1").sendMessage    
-    println("Enviar mensaje a "+list.map(_.name))
+    println("Enviar mensaje a "+list.map(_.name).mkString(","))
   }
   
 }
