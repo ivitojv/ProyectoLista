@@ -17,7 +17,8 @@ import javax.swing.JButton;
 public class CrearPersona extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField textFieldName;
+	private JTextField textFieldMail;
 
 	/**
 	 * Create the frame.
@@ -30,11 +31,15 @@ public class CrearPersona extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(114, 21, 123, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		textField.setText("");
+		textFieldName = new JTextField();
+		textFieldName.setBounds(114, 21, 310, 20);
+		contentPane.add(textFieldName);
+		textFieldName.setColumns(10);
+		
+		textFieldMail = new JTextField();
+		textFieldMail.setBounds(114, 52, 310, 20);
+		contentPane.add(textFieldMail);
+		textFieldMail.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Nombre:");
 		lblNewLabel.setBounds(29, 24, 61, 14);
@@ -42,21 +47,23 @@ public class CrearPersona extends JFrame {
 		
 		JLabel infLabel = new JLabel("");
 		infLabel.setForeground(Color.red);
-		infLabel.setBounds(29, 96, 208, 14);
+		infLabel.setBounds(29, 96, 395, 14);
 		contentPane.add(infLabel);
 		
 		JButton btnAadir = new JButton("Añadir");
 		btnAadir.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				if(textField.getText().length()>0) {
-					if(PersonController.lookForPerson(textField.getText())== null) {
-						PersonController.add(textField.getText());
-						infLabel.setText("Nueva persona creada: "+ textField.getText());
+				if(textFieldName.getText().length() * textFieldMail.getText().length() > 0) {
+					if(PersonController.lookForPerson(textFieldName.getText())== null) {
+						if(PersonController.add(textFieldName.getText(), textFieldMail.getText()))
+							infLabel.setText("Nueva persona creada: "+ textFieldName.getText()+ " Correo: "+textFieldMail.getText());
+						else
+							infLabel.setText("Correo Electrónico no válido");
 					}else
 						infLabel.setText("Esa persona ya existe en el sistema");
 
 				}else
-					infLabel.setText("Tiene que rellenar el campo nombre");
+					infLabel.setText("Tiene que rellenar el campo nombre y mail");
 
 			}
 		});
@@ -74,10 +81,10 @@ public class CrearPersona extends JFrame {
 		JButton btnNewButton = new JButton("Borrar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textField.getText().length()>0) {
-					if(PersonController.lookForPerson(textField.getText())!= null) {
-						PersonController.delete(textField.getText());
-						infLabel.setText("Persona borrada: "+ textField.getText());
+				if(textFieldName.getText().length()>0) {
+					if(PersonController.lookForPerson(textFieldName.getText())!= null) {
+						PersonController.delete(textFieldName.getText());
+						infLabel.setText("Persona borrada: "+ textFieldName.getText());
 					}else
 						infLabel.setText("Esa persona NO existe en el sistema");
 
@@ -87,5 +94,9 @@ public class CrearPersona extends JFrame {
 		});
 		btnNewButton.setBounds(225, 213, 89, 23);
 		contentPane.add(btnNewButton);
+		
+		JLabel lblCorreo = new JLabel("Correo: ");
+		lblCorreo.setBounds(29, 60, 46, 14);
+		contentPane.add(lblCorreo);
 	}
 }

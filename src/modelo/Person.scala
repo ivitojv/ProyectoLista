@@ -1,3 +1,7 @@
 package modelo
 
-class Person(val name:String) extends Serializable
+import collection.mutable.ArrayBuffer
+
+class Person(val name:String, val correo:String) extends Serializable{
+  var contactos = ArrayBuffer.empty[Person]
+}

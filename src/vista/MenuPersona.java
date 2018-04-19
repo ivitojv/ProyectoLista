@@ -23,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import controlador.ListController;
+import controlador.PersonController;
 import controlador.TaskController;
 import modelo.*;
 import utilities.Sesion;
@@ -75,6 +76,7 @@ public class MenuPersona extends JFrame {
 		filters.addItem("Ordenación");
 		filters.addItem("Ord. A-Z");
 		filters.addItem("Ord. Z-A");
+		filters.addItem("Compartidas");
 		
 		filters.setSelectedIndex(0);
 		
@@ -84,6 +86,9 @@ public class MenuPersona extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				switch((String)filters.getSelectedItem()) {
 				case "Ordenación":
+					lShowed = listas;
+					loadContainer(lShowed);
+					group.clearSelection();
 					break;
 				case "Ord. A-Z":
 					lShowed = ListController.ordFiltL(listas, ListController.AZ());
@@ -95,8 +100,13 @@ public class MenuPersona extends JFrame {
 					loadContainer(lShowed);
 					group.clearSelection();
 					break;
+				case "Compartidas":
+					lShowed = ListController.ordFiltL(listas, ListController.SHARED());
+					loadContainer(lShowed);
+					group.clearSelection();
+					break;
 				default:
-					System.out.println("ERROR: MostrarTarea-> filtes.actionListener "+ filters.getSelectedItem());
+					System.out.println("ERROR: MenuPersona-> filtes.actionListener "+ filters.getSelectedItem());
 				}
 				
 			}
@@ -118,17 +128,15 @@ public class MenuPersona extends JFrame {
 		btnMostrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//System.out.println(group.getSelection());
-				if(group.getSelection()!=null)
+				if(group.getSelection()!=null) {
 					ListController.callMostrarLista(sesion,selectedList);
-				else
+					dispose();
+				}else
 					infLabel.setText("Debes escoger una lista");
 					
 			}
 		});
 		
-		JButton btnBorrar = new JButton("Borrar");
-		btnBorrar.setBounds(300, 104, 121, 23);
-		contentPane.add(btnBorrar);	
 		
 		JButton btnCrearLista = new JButton("Crear lista");
 		btnCrearLista.addActionListener(new ActionListener() {
@@ -144,8 +152,10 @@ public class MenuPersona extends JFrame {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(group.getSelection()!=null) {
-					ListController.callModificarLista(sesion,selectedList);
-					dispose();
+					if(ListController.callModificarLista(sesion,selectedList))
+						dispose();
+					else
+						infLabel.setText("Debes ser el autor de la lista");	
 				}
 				else
 					infLabel.setText("Debes escoger una lista");
@@ -155,17 +165,47 @@ public class MenuPersona extends JFrame {
 		btnModificar.setBounds(303, 70, 118, 23);
 		contentPane.add(btnModificar);
 		
+		JButton btnCompartir = new JButton("Compartir");
+		btnCompartir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(group.getSelection()!=null) {
+					if(ListController.callCompartirLista(sesion,selectedList)) {
+						dispose();
+					}else
+						infLabel.setText("Debes ser el autor de la lista");				
+				}
+				else
+					infLabel.setText("Debes escoger una lista");
+			}
+		});
+		btnCompartir.setBounds(303, 104, 118, 23);
+		contentPane.add(btnCompartir);	
 		
+		JButton btnContactos = new JButton("Contactos");
+		btnContactos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				PersonController.callContactos(sesion);
+				dispose();
+			}
+		});
+		btnContactos.setBounds(156, 227, 118, 23);
+		contentPane.add(btnContactos);
+		
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.setBounds(303, 159, 118, 23);
+		contentPane.add(btnBorrar);
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(group.getSelection()!=null) {
-					ListController.borrarLista(selectedList);
-					contenedor.remove(lShowed.indexOf(selectedList));
-					//System.out.println("MostrarTarea Borrar-> "+tShowed.size());
-					listas.remove(listas.indexOf(selectedList));
-					//System.out.println("MostrarTarea Borrar-> "+tShowed.size());
-					group.clearSelection();
-					contenedor.updateUI();					
+					if(ListController.borrarLista(sesion,selectedList)) {
+						contenedor.remove(lShowed.indexOf(selectedList));
+						//System.out.println("MostrarTarea Borrar-> "+tShowed.size());
+						listas.remove(listas.indexOf(selectedList));
+						//System.out.println("MostrarTarea Borrar-> "+tShowed.size());
+						group.clearSelection();
+						contenedor.updateUI();		
+					}else
+						infLabel.setText("Debes ser el autor de la lista");	
 				}
 				else
 					infLabel.setText("Debes escoger una lista");
@@ -177,8 +217,6 @@ public class MenuPersona extends JFrame {
 		contenedor.setLayout(new BoxLayout(contenedor, BoxLayout.PAGE_AXIS));
 		for (ListaT lts : content) {
 			JPanel panel = new JPanel();
-			
-			//panel.setBounds(10, 79, 414, 83);
 			panel.setLayout(new GridLayout(1,1));
 			
 			JRadioButton rdbt = new JRadioButton(lts.name());
@@ -188,7 +226,7 @@ public class MenuPersona extends JFrame {
 				@Override
 				public void focusGained(FocusEvent arg0) {
 					selectedList = lts;
-					System.out.println(lts.name());
+					System.out.println("MenuPersona lista.name "+lts.name());
 				}
 
 				@Override
@@ -204,4 +242,3 @@ public class MenuPersona extends JFrame {
 		scrollPane.setViewportView(contenedor);
 	}
 }
-

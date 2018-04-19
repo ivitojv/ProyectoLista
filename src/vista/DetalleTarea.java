@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 import controlador.TaskController;
 import controlador.ListController;
 import modelo.*;
-import utilities.Sesion;
+import utilities.*;
 
 import java.awt.Color;
 
@@ -23,7 +23,6 @@ import javax.swing.JCheckBox;
 public class DetalleTarea extends JFrame {
 
 	private JPanel contentPane;
-	private JComboBox<Integer> date_d = new JComboBox<Integer>();
 	private Sesion sesion;
 
 	/**
@@ -90,22 +89,24 @@ public class DetalleTarea extends JFrame {
 			date_m.addItem(i+1);
 		}
 		
-		
+		JComboBox<Integer> date_d = new JComboBox<Integer>();
 		date_d.setBounds(367, 69, 47, 20);
 		panel.add(date_d);
-		/*
 		for(int i = 0; i < 31; i++) {
 			date_d.addItem(i+1);
 		}
-		*/
+		
 		date_m.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				int lastD = date_d.getSelectedIndex();
 				date_d.removeAllItems();
-				loadDays((int)date_m.getSelectedItem(),(int)date_y.getSelectedItem());
-				if(date_d.getItemCount()>lastD)
+				int days = DateManage.daysOfMonth((int)date_m.getSelectedItem(),(int)date_y.getSelectedItem());
+				for(int i = 0; i < days; i++) {
+					date_d.addItem(i+1);
+				}
+				if(days > lastD)
 					date_d.setSelectedIndex(lastD);
 			}
 			
@@ -117,8 +118,11 @@ public class DetalleTarea extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				int lastD = date_d.getSelectedIndex();
 				date_d.removeAllItems();
-				loadDays((int)date_m.getSelectedItem(),(int)date_y.getSelectedItem());
-				if(date_d.getItemCount()>lastD)
+				int days = DateManage.daysOfMonth((int)date_m.getSelectedItem(),(int)date_y.getSelectedItem());
+				for(int i = 0; i < days; i++) {
+					date_d.addItem(i+1);
+				}
+				if(days > lastD)
 					date_d.setSelectedIndex(lastD);
 			}
 			
@@ -127,16 +131,9 @@ public class DetalleTarea extends JFrame {
 		JLabel lblYearMonthDay = new JLabel("Year                        Month            Day");
 		lblYearMonthDay.setBounds(212, 49, 202, 14);
 		panel.add(lblYearMonthDay);
-		date_y.setEnabled(false);
-		date_m.setEnabled(false);
-		date_d.setEnabled(false);
 		
-		JCheckBox chckbxActivar = new JCheckBox("Activar");
-		chckbxActivar.setBounds(96, 68, 97, 23);
-		panel.add(chckbxActivar);
-		
-		JLabel lblAsignadaA = new JLabel("Asignada a:");
-		lblAsignadaA.setBounds(0, 168, 70, 14);
+		JLabel lblAsignadaA = new JLabel("Creada por:");
+		lblAsignadaA.setBounds(0, 166, 75, 14);
 		panel.add(lblAsignadaA);
 		
 		JLabel authorLabel = new JLabel(tarea.author().name());
@@ -148,6 +145,9 @@ public class DetalleTarea extends JFrame {
 		panel.add(chckbxFinalizada);
 		chckbxFinalizada.setSelected(tarea.finalizada());
 		
+		JCheckBox chckbxActivar = new JCheckBox("Activar");
+		chckbxActivar.setBounds(96, 68, 97, 23);
+		panel.add(chckbxActivar);	
 		chckbxActivar.addActionListener(new ActionListener() {
 
 			@Override
@@ -175,7 +175,19 @@ public class DetalleTarea extends JFrame {
 			System.out.println(tarea.date().getYear());
 			date_y.setSelectedIndex(tarea.date().getYear()-118);
 			date_m.setSelectedIndex(tarea.date().getMonth());
+			
+			date_d.removeAllItems();
+			int days = DateManage.daysOfMonth((int)date_m.getSelectedItem(),(int)date_y.getSelectedItem());
+			for(int i = 0; i < days; i++) {
+				date_d.addItem(i+1);
+			}
+			
 			date_d.setSelectedIndex(tarea.date().getDate()-1);
+			
+		}else {
+			date_y.setEnabled(false);
+			date_m.setEnabled(false);
+			date_d.setEnabled(false);
 		}
 		
 		JButton btnGuardar = new JButton("Guardar");
@@ -189,11 +201,11 @@ public class DetalleTarea extends JFrame {
 					if(chckbxActivar.isSelected()) {
 						String date = date_y.getSelectedItem()+"-"+date_m.getSelectedItem()+"-"+ date_d.getSelectedItem();
 						System.out.println("DetalleTarea "+date);
-						if(TaskController.mod(tarea,title.getText(),date,description.getText(),chckbxFinalizada.isSelected())) {
+						if(TaskController.mod(sesion,tarea,title.getText(),date,description.getText(),chckbxFinalizada.isSelected())) {
 							infLabel.setText("Tarea Guardada");
 						}else infLabel.setText("ERROR: fecha fin >= fecha actual");
 					}else {
-						if(TaskController.mod(tarea,title.getText(),"",description.getText(),chckbxFinalizada.isSelected())) {
+						if(TaskController.mod(sesion,tarea,title.getText(),"",description.getText(),chckbxFinalizada.isSelected())) {
 							System.out.println("DetalleTarea "+description.getText());
 							infLabel.setText("Tarea Guardada");
 						}
@@ -211,46 +223,6 @@ public class DetalleTarea extends JFrame {
 				ListController.callMostrarLista(sesion,sesion.lista());
 				dispose();
 			}
-		});
-		
-	}
-	
-	private int daysOfMonth(int month) {
-		switch(month) {
-		case 1:
-			return 31;
-		case 2:
-			return 28;
-		case 3:
-			return 31;
-		case 4:
-			return 30;
-		case 5:
-			return 31;
-		case 6:
-			return 30;
-		case 7:
-			return 31;
-		case 8:
-			return 31;
-		case 9:
-			return 30;
-		case 10:
-			return 31;
-		case 11:
-			return 30;
-		case 12:
-			return 31;
-		}
-		return -1;
-	}
-	
-	private void loadDays (int month, int year){
-		int i = 0;
-		for(i = 0; i < daysOfMonth(month); i++) {
-			date_d.addItem(i+1);
-		}
-		if(month==2 && year%4 == 0 && (year%100 != 0 || year%400 == 0))
-			date_d.addItem(i+1);
+		});	
 	}
 }
