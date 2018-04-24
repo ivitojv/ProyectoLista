@@ -8,14 +8,16 @@ import collection.mutable.ArrayBuffer
 import java.io._
 import java.util.List
 import collection.JavaConversions._
+import persistencia.PersonFacade
 
 object PersonController extends Controller {
   var personas = ArrayBuffer.empty[Person]
   private val FILENAME = "personas.obj"
   private val regex = """[A-Za-z0-9_\.\+-]+@[A-Za-z]+\.[A-Za-z]+""".r
 
-  cargarPersonas(FILENAME)
-
+  //cargarPersonas(FILENAME)
+  cargarBD
+  
   private def cargarPersonas(filename: String) {
     try {  
       val in = new ObjectInputStream(new FileInputStream(filename))
@@ -24,10 +26,14 @@ object PersonController extends Controller {
       case e: Exception => e.printStackTrace()
       }
   }
+  private def cargarBD(){
+    personas = PersonFacade.getAll
+  }
   def addContact(ss:Sesion, name:String)={
     if(lookForPerson(name) != null && !ss.person.contactos.map(_.name).contains(name) && name != ss.person.name){
       ss.person.contactos += lookForPerson(name)
-      saveOnFile(personas,FILENAME)
+      PersonFacade.addFriend(ss.person, lookForPerson(name))
+      //saveOnFile(personas,FILENAME)
       true
     }else
       false
@@ -37,8 +43,10 @@ object PersonController extends Controller {
       callContactsWarning()
       false
     }else{
-      ss.person.contactos = ss.person.contactos.filter((p:Person)=>if(ppl.map(_.name).contains(p.name))false else true)
-      saveOnFile(personas,FILENAME)
+      ss.person.contactos = ss.person.contactos.filter((p:Person)=> !ppl.map(_.name).contains(p.name))
+      for(friend<-ppl)
+        PersonFacade.deleteFriend(ss.person, friend)
+      //saveOnFile(personas,FILENAME)
       true
     }
   }
@@ -73,7 +81,9 @@ object PersonController extends Controller {
     println("PersonController add")
     if(regex.findAllIn(correo).length == 1){
       personas += new Person(name,correo)
-      saveOnFile(personas,FILENAME)
+      PersonFacade.insertPerson(new Person(name,correo))
+      //println(PersonFacade.getAll().map(a=>a.name+" "+a.correo).mkString("\n"))
+      //saveOnFile(personas,FILENAME)
       true
     }else
       false

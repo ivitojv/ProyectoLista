@@ -79,19 +79,19 @@ public class CrearPersona extends JFrame {
 		contentPane.add(btnAtras);
 		
 		JButton btnNewButton = new JButton("Borrar");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(textFieldName.getText().length()>0) {
-					if(PersonController.lookForPerson(textFieldName.getText())!= null) {
-						PersonController.delete(textFieldName.getText());
-						infLabel.setText("Persona borrada: "+ textFieldName.getText());
-					}else
-						infLabel.setText("Esa persona NO existe en el sistema");
-
-				}else
-					infLabel.setText("Tiene que rellenar el campo nombre");
-			}
-		});
+//		btnNewButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				if(textFieldName.getText().length()>0) {
+//					if(PersonController.lookForPerson(textFieldName.getText())!= null) {
+//						PersonController.delete(textFieldName.getText());
+//						infLabel.setText("Persona borrada: "+ textFieldName.getText());
+//					}else
+//						infLabel.setText("Esa persona NO existe en el sistema");
+//
+//				}else
+//					infLabel.setText("Tiene que rellenar el campo nombre");
+//			}
+//		});
 		btnNewButton.setBounds(225, 213, 89, 23);
 		contentPane.add(btnNewButton);
 		
