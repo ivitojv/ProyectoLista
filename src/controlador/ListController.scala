@@ -123,8 +123,19 @@ object ListController extends Controller{
         case e: Exception => e.printStackTrace()
         false
       }
-    }else
-      false
-      
+    }else false  
+  }
+  def callListWarning(ss:Sesion,list:ListaT)={
+    if(ss.person.name == list.author.name){
+      try {
+        ss.lista = list
+        frame = new ListWarning(ss)
+        frame.setVisible(true)
+        true
+      } catch {
+        case e: Exception => e.printStackTrace()
+        false
+      }
+    }else false
   }
 }

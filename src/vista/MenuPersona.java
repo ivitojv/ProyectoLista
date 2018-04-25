@@ -197,13 +197,8 @@ public class MenuPersona extends JFrame {
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(group.getSelection()!=null) {
-					if(ListController.borrarLista(sesion,selectedList)) {
-						contenedor.remove(lShowed.indexOf(selectedList));
-						//System.out.println("MostrarTarea Borrar-> "+tShowed.size());
-						listas.remove(listas.indexOf(selectedList));
-						//System.out.println("MostrarTarea Borrar-> "+tShowed.size());
-						group.clearSelection();
-						contenedor.updateUI();		
+					if(ListController.callListWarning(sesion,selectedList)) {
+						dispose();	
 					}else
 						infLabel.setText("Debes ser el autor de la lista");	
 				}
