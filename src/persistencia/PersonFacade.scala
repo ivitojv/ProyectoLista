@@ -1,7 +1,6 @@
 package persistencia
 import modelo._
 import collection.mutable.ArrayBuffer
-import controlador._
 
 object PersonFacade {
   def insertPerson(p:Person){
@@ -9,10 +8,14 @@ object PersonFacade {
     for(friend<-p.contactos)
       ConectionBD.insert("insert into Friend values(\""+p.name+"\",\""+friend.name+"\");")
   }
-  
-  def getAll()={
+  def getPerson(name:String)={
+    val result = ConectionBD.recover("select * from User where nombre=\""+name+"\";")
+    result.next
+    new Person(result.getString("nombre"),result.getString("correo"))
+  }
+  def getAll = {
     val result = ConectionBD.recover("select * from User;")
-    var resp = ArrayBuffer.empty[Person]
+    val resp = ArrayBuffer.empty[Person]
     while(result.next)
       resp += new Person(result.getString("nombre"),result.getString("correo"))
     for(p<-resp){

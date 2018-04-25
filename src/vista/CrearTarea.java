@@ -159,6 +159,7 @@ public class CrearTarea extends JFrame {
 				if(textFieldTitle.getText().length() > 0) {
 					if(chckbxActivar.isSelected()) {
 						String date = date_y.getSelectedItem()+"-"+date_m.getSelectedItem()+"-"+ date_d.getSelectedItem();
+						System.out.println("CrearTarea: "+date);
 						if(TaskController.add(sesion,textFieldTitle.getText(),date,comments.getText())) {
 							infLabel.setText("Tarea Creada");
 						}

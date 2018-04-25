@@ -7,9 +7,9 @@ class ListaTTest extends FlatSpec with Matchers {
   
   behavior of "ListaT"
   
-  val lista = new ListaT("",null)
-  val tarea1 = new Tarea(null,"")
-  val tarea2 = new Tarea(null,"")
+  val lista = new ListaT(0,"",null)
+  val tarea1 = new Tarea(0,null,"")
+  val tarea2 = new Tarea(1,null,"")
   
   it should "return the size of the list" in{
     lista.size should be (0)
