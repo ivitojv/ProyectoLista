@@ -15,6 +15,7 @@ import java.awt.Color;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -65,7 +66,7 @@ public class DetalleTarea extends JFrame {
 
 		JTextField description = new JTextField(tarea.comment());
 		description.setBounds(212, 105, 212, 52);
-		System.out.println("vista.MostrarTarea "+tarea.comment());
+		System.out.println("vista.DetalleTarea "+tarea.comment());
 		//description.setBounds(83, 43, 321, 29);
 		panel.add(description);
 		
@@ -172,9 +173,8 @@ public class DetalleTarea extends JFrame {
 			date_y.setEnabled(true);
 			date_m.setEnabled(true);
 			date_d.setEnabled(true);
-			System.out.println(tarea.date().getYear());
-			date_y.setSelectedIndex(tarea.date().getYear()-118);
-			date_m.setSelectedIndex(tarea.date().getMonth());
+			date_y.setSelectedIndex(tarea.date().get(Calendar.YEAR)-2018);
+			date_m.setSelectedIndex(tarea.date().get(Calendar.MONTH));
 			
 			date_d.removeAllItems();
 			int days = DateManage.daysOfMonth((int)date_m.getSelectedItem(),(int)date_y.getSelectedItem());
@@ -182,7 +182,7 @@ public class DetalleTarea extends JFrame {
 				date_d.addItem(i+1);
 			}
 			
-			date_d.setSelectedIndex(tarea.date().getDate()-1);
+			date_d.setSelectedIndex(tarea.date().get(Calendar.DAY_OF_MONTH)-1);
 			
 		}else {
 			date_y.setEnabled(false);

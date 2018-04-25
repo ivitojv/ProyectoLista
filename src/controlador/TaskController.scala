@@ -10,6 +10,8 @@ import java.util.List
 import collection.JavaConversions._
 import vista._
 import java.util.Date
+import java.util.Calendar
+import persistencia.TareaFacade
 
 object TaskController extends Controller{
   private val regex = """[0-9][0-9][0-9][0-9]-[0-1]?[0-9]-[0-3]?[0-9]""".r
@@ -32,25 +34,27 @@ object TaskController extends Controller{
   def add(ss:Sesion,title:String,fecha:String,comment:String)={
     val dest = ss.lista.shared.+:(ss.lista.author).filter((p:Person) => p.name != ss.person.name)
     if(checkDate(fecha)){ 
-      ss.lista +=new Tarea(ss.person,title,format.parse(fecha),comment)
-      ListController.save
+      val cal = Calendar.getInstance
+      cal.setTime(format.parse(fecha))
+      ss.lista +=new Tarea(TareaFacade.insertTarea(ss.lista.ID,ss.person,title,cal,comment),ss.person,title,cal,comment)
       sendMail(ss,dest.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha añadido la tarea "+title+" a la lista " + ss.lista.name)
       true
     }else if(fecha == ""){
-      ss.lista += new Tarea(ss.person,title,comment)
-      ListController.save
+      ss.lista += new Tarea(TareaFacade.insertTarea(ss.lista.ID,ss.person,title,null,comment),ss.person,title,null,comment)
       sendMail(ss,dest.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha añadido la tarea "+title+" a la lista " + ss.lista.name)
       true
     }else false
   }
   def mod(ss:Sesion,t:Tarea, title:String, date:String, comment:String, fin:Boolean)={
     val dest = ss.lista.shared.+:(ss.lista.author).filter((p:Person) => p.name != ss.person.name)
+    val fecha = Calendar.getInstance
     if(checkDate(date)){
+      fecha.setTime(format.parse(date))
       t.title = title
-      t.date = format.parse(date)
+      t.date = fecha
       t.comment = comment
       t.finalizada = fin
-      ListController.save
+      TareaFacade.updTarea(t)
       sendMail(ss,dest.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha modificado la tarea "+t.title+" de la lista " + ss.lista.name)
       true
      }else if(date == ""){
@@ -58,7 +62,7 @@ object TaskController extends Controller{
       t.date = null
       t.comment = comment
       t.finalizada = fin
-      ListController.save
+      TareaFacade.updTarea(t)
       sendMail(ss,dest.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha modificado la tarea "+t.title+" de la lista " + ss.lista.name)
       true
     }else false
@@ -82,7 +86,7 @@ object TaskController extends Controller{
   def borrarTarea(ss:Sesion,t:Tarea) {
     val dest = ss.lista.shared.+:(ss.lista.author).filter((p:Person) => p.name != ss.person.name)
     ss.lista -= t
-    ListController.save
+    TareaFacade.deleteTarea(t)
     sendMail(ss,dest.toList,"Aviso: " +ss.lista.name,ss.person.name + " ha borrado la tarea "+t.title+" de la lista " + ss.lista.name)
   }
 }

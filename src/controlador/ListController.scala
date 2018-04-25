@@ -7,6 +7,7 @@ import collection.JavaConversions._
 import utilities._
 import vista._
 import java.io._
+import persistencia._
 
 
 object ListController extends Controller{
@@ -18,7 +19,8 @@ object ListController extends Controller{
   
   var listas = ArrayBuffer.empty[ListaT]
   
-  cargarListas(FILENAME)
+  cargarBD
+  
   def ordFiltL(lts:List[ListaT], op:Int):List[ListaT]={
     op match{
       case AZ => lts.sortWith(_.name < _.name)
@@ -34,14 +36,16 @@ object ListController extends Controller{
       case e: Exception => e.printStackTrace()
       }
   }
+  private def cargarBD{listas = ListaFacade.getAll}
   def lookForList(ss:Sesion, name:String) = {val ans = listas.filter((l:ListaT) => l.author.name == ss.person.name && l.name == name);  if(ans.length > 0) ans(0) else null}
-  def addLista(ss:Sesion, name:String){ listas += new ListaT(name, ss.person); save}
+  def addLista(ss:Sesion, name:String){listas += new ListaT(ListaFacade.insertLista(name, ss.person),name,ss.person)}
   def getListas(ss:Sesion) = for(l<-listas; if(l.author.name == ss.person.name || l.shared.map(_.name).contains(ss.person.name))) yield l
   def shareList(ss:Sesion, ppl:List[Person]){
     val additions = ppl.filter((p:Person) => !ss.lista.shared.map(_.name).contains(p.name))
     val deletions = ss.lista.shared.filter((p:Person) => !ppl.map(_.name).contains(p.name))
     ss.lista.shared = ppl.to[ArrayBuffer]
-    save
+    additions.foreach((p:Person)=> ListaFacade.addShare(ss.lista.ID, p))
+    deletions.foreach((p:Person)=> ListaFacade.deleteShare(ss.lista.ID, p))
     sendMail(ss,additions.toList,"Aviso: " +ss.lista.name,ss.person.name + " te ha compartido la lista " + ss.lista.name)
     sendMail(ss,deletions.toList,"Aviso: " +ss.lista.name,ss.person.name + " te ha descompartido la lista " + ss.lista.name)
 
@@ -49,7 +53,7 @@ object ListController extends Controller{
   def mod(ss:Sesion,name:String)={
     if(lookForList(ss,name)==null){
       ss.lista.name = name
-      save
+      ListaFacade.updLista(ss.lista)
       true
     }else
       false
@@ -57,12 +61,12 @@ object ListController extends Controller{
   def borrarLista(ss:Sesion,list:ListaT)={
     if(ss.person.name == list.author.name){
       listas -= list
-      save
+      ListaFacade.deleteLista(list)
       true
     }else
       false
   }
-  def save {saveOnFile(listas,FILENAME)}
+
   def callMenu(ss: Sesion) {
     try {
       frame = new MenuPersona(ss,getListas(ss))

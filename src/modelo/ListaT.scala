@@ -1,11 +1,11 @@
 package modelo
 import collection.mutable.ArrayBuffer
 
-class ListaT(var name:String, var author:Person) extends Serializable{
+class ListaT(val ID:Int, var name:String, var author:Person) extends Serializable{
   var lista = ArrayBuffer.empty[Tarea]
   var shared = ArrayBuffer.empty[Person]
-  def this(name:String, p:Person, l:ArrayBuffer[Tarea]){
-    this(name,p)
+  def this(ID:Int,name:String, p:Person, l:ArrayBuffer[Tarea]){
+    this(ID,name,p)
     lista = l
   }
   def +=(t:Tarea) {lista+=t}
