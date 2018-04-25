@@ -52,8 +52,7 @@ public class CrearLista extends JFrame {
 		btnAadir.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				if(textField.getText().length()>0) {
-					if(ListController.lookForList(sesion, textField.getText()) == null) {
-						ListController.addLista(sesion,textField.getText());
+					if(ListController.addLista(sesion,textField.getText())){
 						infLabel.setText("Nueva lista creada: "+ textField.getText());
 					}else
 						infLabel.setText("Existe una lista con el mismo nombre");

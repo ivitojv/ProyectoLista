@@ -15,7 +15,6 @@ object PersonController extends Controller {
   private val FILENAME = "personas.obj"
   private val regex = """[A-Za-z0-9_\.\+-]+@[A-Za-z]+\.[A-Za-z]+""".r
 
-  //cargarPersonas(FILENAME)
   cargarBD
   
   private def cargarPersonas(filename: String) {
@@ -33,7 +32,6 @@ object PersonController extends Controller {
     if(lookForPerson(name) != null && !ss.person.contactos.map(_.name).contains(name) && name != ss.person.name){
       ss.person.contactos += lookForPerson(name)
       PersonFacade.addFriend(ss.person, lookForPerson(name))
-      //saveOnFile(personas,FILENAME)
       true
     }else
       false
@@ -46,7 +44,6 @@ object PersonController extends Controller {
       ss.person.contactos = ss.person.contactos.filter((p:Person)=> !ppl.map(_.name).contains(p.name))
       for(friend<-ppl)
         PersonFacade.deleteFriend(ss.person, friend)
-      //saveOnFile(personas,FILENAME)
       true
     }
   }
@@ -79,11 +76,9 @@ object PersonController extends Controller {
   
   def add(name:String, correo:String) = {
     println("PersonController add")
-    if(regex.findAllIn(correo).length == 1){
+    if(regex.findAllIn(correo).length == 1 && lookForPerson(name)==null && name.size>0){
       personas += new Person(name,correo)
       PersonFacade.insertPerson(new Person(name,correo))
-      //println(PersonFacade.getAll().map(a=>a.name+" "+a.correo).mkString("\n"))
-      //saveOnFile(personas,FILENAME)
       true
     }else
       false

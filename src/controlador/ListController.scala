@@ -37,8 +37,14 @@ object ListController extends Controller{
       }
   }
   private def cargarBD{listas = ListaFacade.getAll}
-  def lookForList(ss:Sesion, name:String) = {val ans = listas.filter((l:ListaT) => l.author.name == ss.person.name && l.name == name);  if(ans.length > 0) ans(0) else null}
-  def addLista(ss:Sesion, name:String){listas += new ListaT(ListaFacade.insertLista(name, ss.person),name,ss.person)}
+  private def lookForList(ss:Sesion, name:String) = {val ans = listas.filter((l:ListaT) => l.author.name == ss.person.name && l.name == name);  if(ans.length > 0) ans(0) else null}
+  def addLista(ss:Sesion, name:String)={
+    if(lookForList(ss,name) == null && name.size>0){
+      listas += new ListaT(ListaFacade.insertLista(name, ss.person),name,ss.person)
+      true
+    }else false
+    
+  }
   def getListas(ss:Sesion) = for(l<-listas; if(l.author.name == ss.person.name || l.shared.map(_.name).contains(ss.person.name))) yield l
   def shareList(ss:Sesion, ppl:List[Person]){
     val additions = ppl.filter((p:Person) => !ss.lista.shared.map(_.name).contains(p.name))
@@ -51,7 +57,7 @@ object ListController extends Controller{
 
   }
   def mod(ss:Sesion,name:String)={
-    if(lookForList(ss,name)==null){
+    if(lookForList(ss,name)==null && name.size>0){
       ss.lista.name = name
       ListaFacade.updLista(ss.lista)
       true
