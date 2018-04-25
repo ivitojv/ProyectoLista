@@ -15,8 +15,8 @@ object TareaFacade {
   def getTareasLista(l:ListaT)={
     val result = ConectionBD.recover("select * from Tarea where lista="+l.ID+";")
     val tareas = ArrayBuffer.empty[Tarea]
-    var date = Calendar.getInstance
     while(result.next){
+      var date = Calendar.getInstance
       try{date.setTime(result.getDate("fecha"))}catch{case e:NullPointerException => date = null}
       tareas += new Tarea(result.getInt("idTarea"),
                           PersonFacade.getPerson(result.getString("owner")),
