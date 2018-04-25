@@ -44,7 +44,8 @@ object ListController extends Controller{
     val additions = ppl.filter((p:Person) => !ss.lista.shared.map(_.name).contains(p.name))
     val deletions = ss.lista.shared.filter((p:Person) => !ppl.map(_.name).contains(p.name))
     ss.lista.shared = ppl.to[ArrayBuffer]
-    save
+    additions.foreach((p:Person)=> ListaFacade.addShare(ss.lista.ID, p))
+    deletions.foreach((p:Person)=> ListaFacade.deleteShare(ss.lista.ID, p))
     sendMail(ss,additions.toList,"Aviso: " +ss.lista.name,ss.person.name + " te ha compartido la lista " + ss.lista.name)
     sendMail(ss,deletions.toList,"Aviso: " +ss.lista.name,ss.person.name + " te ha descompartido la lista " + ss.lista.name)
 
@@ -65,7 +66,7 @@ object ListController extends Controller{
     }else
       false
   }
-  def save {saveOnFile(listas,FILENAME)}
+
   def callMenu(ss: Sesion) {
     try {
       frame = new MenuPersona(ss,getListas(ss))
