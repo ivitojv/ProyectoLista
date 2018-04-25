@@ -9,7 +9,7 @@ object TareaFacade {
                         +author.name+"\",\""+titulo+"\","+parsear(fecha)+",\""+comment+"\","+lista
                         +",false);")
     val result = ConectionBD.recover("select idTarea from Tarea where owner=\""+author.name+"\" and titulo=\""+titulo+"\";")
-    result.next
+    result.last
     result.getInt("idTarea")
   }
   def getTareasLista(l:ListaT)={
