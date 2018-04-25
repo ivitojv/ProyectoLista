@@ -9,7 +9,7 @@ object TareaFacade {
                         +author.name+"\",\""+titulo+"\","+parsear(fecha)+",\""+comment+"\","+lista
                         +",false);")
     val result = ConectionBD.recover("select idTarea from Tarea where owner=\""+author.name+"\" and titulo=\""+titulo+"\";")
-    result.last
+    result.last //Para que en caso de que haya 2 tareas con el mismo nombre y owner coja la última creada
     result.getInt("idTarea")
   }
   def getTareasLista(l:ListaT)={

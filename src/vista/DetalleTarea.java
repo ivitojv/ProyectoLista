@@ -66,7 +66,7 @@ public class DetalleTarea extends JFrame {
 
 		JTextField description = new JTextField(tarea.comment());
 		description.setBounds(212, 105, 212, 52);
-		System.out.println("vista.MostrarTarea "+tarea.comment());
+		System.out.println("vista.DetalleTarea "+tarea.comment());
 		//description.setBounds(83, 43, 321, 29);
 		panel.add(description);
 		
@@ -173,7 +173,6 @@ public class DetalleTarea extends JFrame {
 			date_y.setEnabled(true);
 			date_m.setEnabled(true);
 			date_d.setEnabled(true);
-			System.out.println(tarea.date().get(Calendar.YEAR));
 			date_y.setSelectedIndex(tarea.date().get(Calendar.YEAR)-2018);
 			date_m.setSelectedIndex(tarea.date().get(Calendar.MONTH));
 			
