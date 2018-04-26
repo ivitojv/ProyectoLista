@@ -30,7 +30,7 @@ object TaskController extends Controller{
     }
   }
 
-  private def checkDate(date:String) = if(regex.findAllIn(date).length>0) if(format.parse(date).after(new Date())) true else false else false
+  private def checkDate(date:String) = if(regex.findAllIn(date).length>0) true else false
   def add(ss:Sesion,title:String,fecha:String,comment:String)={
     val dest = ss.lista.shared.+:(ss.lista.author).filter((p:Person) => p.name != ss.person.name)
     if(checkDate(fecha)){ 
